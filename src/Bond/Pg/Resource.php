@@ -73,7 +73,7 @@ class Resource implements Serializable, ResourceInterface
 
         if( !$resource = @pg_connect( $connectionString, PGSQL_CONNECT_FORCE_NEW ) ) {
             $error = error_get_last();
-            throw new UnableToConnectException( $connectionString, $error['message'], $settings );
+            throw new UnableToConnectException( $connectionString, $error['message'], $connectionSettings->jsonSerialize() );
         }
         self::$instances[] = $this;
         $this->terminated = false;

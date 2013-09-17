@@ -20,9 +20,10 @@ class UnableToConnectException extends \Exception
         $this->error = $error;
         $this->settings = $settings;
         $this->message = sprintf(
-            "Error: %s. Couldn't connect to database with `%s`.",
+            "Error: %s. Couldn't connect to database with `%s`. %s",
             $this->error,
-            $this->connectionString
+            $this->connectionString,
+            print_r( $settings, true )
         );
     }
 }
