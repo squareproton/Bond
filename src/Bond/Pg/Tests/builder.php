@@ -42,7 +42,6 @@ try {
         $db,
         [
             $argv[1],
-//            "/home/captain/CaptainCourier/captain-courier/res/database/schema",
             __DIR__ . "/../../../../database/assets"
         ],
         $assetsResolved

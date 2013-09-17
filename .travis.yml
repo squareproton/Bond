@@ -1,0 +1,15 @@
+language: php
+php:
+  - "5.5"
+services:
+  - postgresql
+  - redis
+before_script:
+  - psql -c 'CREATE DATABASE unit' -U postgres -h 127.0.0.1
+  - psql -c "CREATE USER unit WITH PASSWORD 'unit';" -U postgres
+install: composer install --dev
+script: phpunit --configuration=tests/phpunit.travis.xml
+
+notifications:
+  email:
+    - squareproton@gmail.com
