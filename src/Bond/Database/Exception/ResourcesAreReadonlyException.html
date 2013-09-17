@@ -1,0 +1,11 @@
+<?php
+
+namespace Bond\Database\Exception;
+
+class ResourcesAreReadonlyException extends \Exception
+{
+    public function __construct()
+    {
+        $this->message = "Postgres resources are readonly. You can't set or unset rows.";
+    }
+}
