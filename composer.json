@@ -1,7 +1,7 @@
 {
-    "name": "Bond",
+    "name": "squareproton/bond",
     "type": "library",
-    "description": "Postgres ORM and misc Php framework goodness.",
+    "description": "Postgres ORM and other misc php framework goodness.",
     "keywords": ["Postgres", "ORM", "Framework", "Normality"],
     "homepage": "",
     "license": "GPL-3.0",
@@ -9,7 +9,7 @@
         {
             "name": "Peter Tuthill",
             "email": "peter",
-            "role": "Developer Creator"
+            "role": "Developer"
         }
     ],
     "autoload": {
