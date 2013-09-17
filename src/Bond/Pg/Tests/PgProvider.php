@@ -12,13 +12,16 @@ namespace Bond\Pg\Tests;
 use Bond\Di\DiTestCase;
 
 use Bond\Database\Exception\DatabaseAlreadyExistsException;
-use Bond\Pg\Result;
-use Bond\Sql\Query;
+
 use Bond\Normality\DatabaseBuilder;
 use Bond\Normality\Exception\AssetChangedException;
 
 use Bond\Pg;
 use Bond\Pg\Resource;
+use Bond\Pg\Result;
+
+use Bond\Sql\Query;
+use Bond\Sql\Raw;
 
 /**
  * @resource ./Di/ConnectionFactoryConfigurable.yml
@@ -37,6 +40,49 @@ class PgProvider extends DiTestCase
     // Phpunit seems to want at least one test
     public function testNothing()
     {
+
+        $db = $this->connectionFactory->get('RW');
+
+        $query = new Query( <<<SQL
+            SELECT
+                a.attrelid::text || '.' || a.attnum::text AS key,
+                a.attrelid AS attrelid,
+                c.relname as "cname",
+                a.attname as name,
+                a.atttypid as "typeOid",
+                a.attndims <> 0 as "isArray",
+                a.attnotnull as "notNull",
+                a.attnum as "attnum",
+                a.attinhcount as "attinhcount",
+                d.adsrc as "default",
+                i.character_maximum_length as "length",
+                description.description as "comment"
+            FROM
+                pg_attribute AS a
+            INNER JOIN
+                pg_type AS t ON t.oid = a.atttypid
+            INNER JOIN
+                pg_class AS c ON c.oid = a.attrelid
+            LEFT JOIN
+                pg_catalog.pg_namespace n ON n.oid = c.relnamespace
+            -- some pgType objects don't report length as you might expect so we need to check information schema
+            LEFT JOIN
+                information_schema.columns as i ON n.nspname = i.table_schema AND c.relname = i.table_name AND i.column_name = a.attname
+            LEFT JOIN
+                pg_attrdef AS d ON d.adrelid = a.attrelid AND d.adnum = a.attnum
+            LEFT JOIN
+                pg_description AS description ON description.objoid = a.attrelid AND description.objsubid = a.attnum
+            WHERE
+                n.nspname NOT IN ('pg_catalog', 'pg_toast', 'information_schema') AND
+                n.nspname = ANY( current_schemas(false) ) AND
+                attisdropped = false AND
+                attnum > 0
+            ORDER BY
+                a.attrelid::text ASC,
+                a.attnum ASC
+SQL
+        );
+        print_r( $db->query($query)->fetch(Result::TYPE_DETECT) );
     }
 
     public static function setupBeforeClass()
