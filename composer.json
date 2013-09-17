@@ -1,0 +1,40 @@
+{
+    "name": "Bond",
+    "type": "library",
+    "description": "Postgres ORM and misc Php framework goodness.",
+    "keywords": ["Postgres", "ORM", "Framework", "Normality"],
+    "homepage": "",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Peter Tuthill",
+            "email": "peter",
+            "role": "Developer Creator"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "Bond\\": "src/",
+            "SebastianBergmann\\": "lib/"
+        },
+        "files": [
+            "src/Bond/functions.php",
+            "lib/php-ref/ref.php",
+            "lib/underscore.php",
+            "lib/php-ref-config.php"
+        ]
+    },
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "require-dev": {
+        "symfony/dependency-injection": "*",
+        "symfony/proxy-manager-bridge": "*",
+        "symfony/yaml": "*",
+        "symfony/config": "*"
+    },
+    "minimum-stability": "dev",
+    "config": {
+        "process-timeout": 5000
+    }
+}

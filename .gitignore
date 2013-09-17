@@ -1,0 +1,11 @@
+todo
+vendor/
+Node/
+src/BondOriginal
+src/Bond/Normality/UnitTest
+src/Bond/Normality/UnitTest-original
+database-old/
+
+*.php~
+**/*.DS_Store
+**/.directory
