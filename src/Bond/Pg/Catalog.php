@@ -34,13 +34,12 @@ class Catalog
      */
     private $enum;
 
-   /**
+    /**
      * @param Bond\Pg $db
      */
     public function __construct( Pg $db )
     {
         $this->db = $db;
-
         $this->pgAttributes = new PgAttribute($this);
         $this->pgClasses = new PgClass($this);
         $this->pgIndexes = new PgIndex($this);

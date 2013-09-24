@@ -1,0 +1,232 @@
+
+/*
+
+body {
+    margin: 5px;
+    font-size: 14px;
+}
+
+h3 {
+    margin: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+pre {
+    font-family: "Lucida Console", Courier, monospace !important;
+}
+
+.call {
+    border: 1px dotted silver;
+    overflow-x: auto;
+    padding: 60px 5px 5px;
+    position: relative;
+}
+
+.call .calledFrom {
+    background-color: #FFFFFF;
+    border: 1px dashed #CCCCCC;
+    color: #BBBBBB;
+    font-family: "Lucida Console", Courier, monospace !important;
+    font-size: 80%;
+    padding: 5px;
+    position: absolute;
+    top: 5px;
+    width: -moz-calc(100% - 25px);
+    width: -webkit-calc(100% - 25px);
+}
+
+.call .calledFrom {
+    max-height: 30px;
+    overflow: hidden;
+}
+
+.call .calledFrom:hover {
+    border-color: #000000;
+    color: #000000;
+    overflow: visible;
+    max-height: none;
+}
+
+.clearer {
+    clear: both;
+}
+
+#content {
+    clear: both;
+    padding: 40px 10px 0;
+}
+
+.header {
+    background-color: #FFFFFF;
+    height: 30px;
+    left: 0;
+    top: 0;
+    right: 0;
+    padding: 10px 10px 5px 10px;
+    position: fixed;
+    z-index: 1000;
+}
+
+.header > h3 {
+    float: left;
+}
+
+.header > .control {
+    float: right;
+}
+
+    .header > .control button {
+        height: 25px;
+    }
+
+    .header > .control input[type='checkbox'] {
+        margin: 0 0 0 5px;
+    }
+
+
+    .exception {
+        background-color: rgba( 255, 0, 0, 0.1 );
+        border-color: red;
+    }
+
+    .d .debug {
+        background-color: white;
+        font-family: monospace;
+        font-size: 100%;
+        border-left: 1px solid transparent;
+        position: relative;
+        margin-left: 20px;
+    }
+
+    .d .debug * {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+     }
+
+    .d .numeric > .value,
+    .d .string > .value:not(.primitive) {
+        -webkit-user-select: auto;
+        -moz-user-select: auto;
+     }
+
+    .d .phpclass {
+        margin: 10px 0;
+        border: 1px dotted #999;
+        display: none;
+    }
+
+        .d .keyword {
+            margin: 5px;
+            font-weight: bold;
+        }
+
+        .d .value.primitive {
+            background-color: #eee;
+            color: #004;
+        }
+
+        .d .type {
+            margin-right: 10px;
+            font-style: italic;
+            opacity: 0.5;
+        }
+
+            .d .value[type]:after {
+                content: attr(type);
+                margin-left: 10px;
+                font-style: italic;
+            }
+
+            .d .string { white-space: pre; }
+
+            .d .quote:before { content: '"'; background-color: #eee; }
+            .d .quote:after { content: '"'; background-color: #eee; }
+
+            .d .string > .value:before {
+                content: attr(length);
+                font-style: italic;
+            }
+
+            .d .string {
+                max-height: 16px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+
+            .d .recursion_depth_reached > .value {
+                font-style: italic;
+            }
+
+        .d *[static] { font-style: italic; }
+        .d *[access='public'] { color: green; }
+        .d *[access='protected'] { color: blue; }
+        .d *[access='private'] { color: red; }
+
+        .d .phpclass > .name,
+        .d .object > a { font-style: italic; font-size: 100%; }
+
+        .d .properties, .methods { margin: 3px 0 3px 5px; }
+        .d .properties > div > span > span { color: #aaa; }
+
+        .d .properties > div > span:first-child:after {
+            content: "=>";
+            margin: 0 10px;
+        }
+
+        .d .properties:empty, .methods:empty { display: none; }
+
+        .d .repeat {
+            font-style: italic;
+            color: green;
+            text-decoration: underline;
+            margin-left: 10px;
+        }
+
+        .d .signature:before {
+            content: '(';
+        }
+        .d .signature:after {
+            content: ')';
+        }
+
+        .d .signature:not(:empty):before {
+            margin: 0 3px 0 0;
+        }
+        .d .signature:not(:empty):after {
+            margin: 0 0 0 3px;
+        }
+
+        .d span.declaringClass {
+            opacity: 0.3;
+            float: right;
+        }
+
+            .d .showhide {
+                padding: 8px 8px;
+                position: absolute;
+                left: -20px;
+                top: 0px;
+            }
+
+            .d .methods:not(.hide),
+            .d .properties:not(.hide) {
+                display: none;
+            }
+
+            .d .methods.hide,
+            .d .properties.hide {
+                display: block;
+            }
+
+            .d .methods.hide + .showhide,
+            .d .properties.hide + .showhide {
+                background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAANxJREFUeNpi/P//PwMlgImBQkCxASzoAh0d7e///fsvgM1rjIyMDExMjBsrKioDcBrw7+8/ARd3T5w27tm53R+vC/5BbT5y5BjINoT4v/8MNjZWcHmcBsCczsLCjBpYTKjyOA0AgR8/fzLk5WRiiB86epxwIIIc/f/vf4aFi5eh2AYKQAV5BQZGQgYAVYL9ycPDw4A1fBgZ8RsACjgmoId5eHgxEw1QHDlgcQQiw+ejh/fx/geG+n80rzECNX/79v0gioPRQxXoVwMgxYwn8X0A6rmL04Chl5kAAgwA/9xThJas4PMAAAAASUVORK5CYII=);
+            }
+            .d .methods:not(.hide) + .showhide,
+            .d .properties:not(.hide) + .showhide {
+                background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAO5JREFUeNpi/P//PwMlgImBQkCxASzoAh0d7e///fsvgM1rjIyMDExMjBsrKioDcBrw7+8/ARd3T5w27tm53R+vF/5BbT5y5BjDsWPHGcxMjMA0iI8sj9MFMKezsDAjbGFiAmJUeZwGgMCPnz8Z8nIy4XwY+9DR44QDkRFky9//DAsXLwPblhAXzbBg0VJwACrIK4Dl8bsAqBDkTx4eHrgQLy8vwv+MjPgNAEYT2M88PBBNO3fvh7MhYcFIKBAZPh89vI/3/7//DP/RvMYI1Pzt2/eDKA5GD1WgXw2AFDOexPcBqOcuTgOGXmYCCDAAPw1eKIwayIcAAAAASUVORK5CYII=);
+            }
+
+*/

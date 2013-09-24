@@ -82,7 +82,7 @@ class PgProvider extends DiTestCase
                 a.attnum ASC
 SQL
         );
-        print_r( $db->query($query)->fetch(Result::TYPE_DETECT) );
+        // print_r( $db->query($query)->fetch(Result::TYPE_DETECT) );
     }
 
     public static function setupBeforeClass()

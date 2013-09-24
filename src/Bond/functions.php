@@ -7,23 +7,6 @@
  * file that was distributed with this source code.
  */
 
-namespace {
-
-    // temporary debugging function to help track instances of objects
-    function d_o( $object ) {
-        if( is_object($object) ) {
-            printf(
-                "%s %s\n",
-                get_class( $object ),
-                substr( md5( spl_object_hash($object) ), 0, 5 )
-            );
-        } else {
-            print_r( $object );
-        }
-    }
-
-}
-
 /**
  * A collection of global functions that are always included / available
  */
