@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3f167c9c46b80cd24df12b7e1fe19f68",
+    "hash": "6f05211808da524ec8d39ecb908a0e86",
     "packages": [
 
     ],
@@ -77,12 +77,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Config.git",
-                "reference": "357a42cd94d99a52b6f8c8750b2ba959bf25f533"
+                "reference": "9a3c831697349cf6e9b5302b7beb0b97e6cdac41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Config/zipball/357a42cd94d99a52b6f8c8750b2ba959bf25f533",
-                "reference": "357a42cd94d99a52b6f8c8750b2ba959bf25f533",
+                "url": "https://api.github.com/repos/symfony/Config/zipball/9a3c831697349cf6e9b5302b7beb0b97e6cdac41",
+                "reference": "9a3c831697349cf6e9b5302b7beb0b97e6cdac41",
                 "shasum": ""
             },
             "require": {
@@ -116,7 +116,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-13 12:20:47"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/dependency-injection",
@@ -125,12 +125,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/DependencyInjection.git",
-                "reference": "d08ec91cadbc497c7f1b1b84517116517dcbc602"
+                "reference": "14eb184da96129ba5a0304f8cb202b83fc2e375a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/d08ec91cadbc497c7f1b1b84517116517dcbc602",
-                "reference": "d08ec91cadbc497c7f1b1b84517116517dcbc602",
+                "url": "https://api.github.com/repos/symfony/DependencyInjection/zipball/14eb184da96129ba5a0304f8cb202b83fc2e375a",
+                "reference": "14eb184da96129ba5a0304f8cb202b83fc2e375a",
                 "shasum": ""
             },
             "require": {
@@ -138,6 +138,7 @@
             },
             "require-dev": {
                 "symfony/config": "~2.2",
+                "symfony/expression-language": "~2.4",
                 "symfony/yaml": "~2.0"
             },
             "suggest": {
@@ -172,7 +173,7 @@
             ],
             "description": "Symfony DependencyInjection Component",
             "homepage": "http://symfony.com",
-            "time": "2013-09-16 08:01:04"
+            "time": "2013-09-21 18:20:49"
         },
         {
             "name": "symfony/filesystem",
@@ -181,12 +182,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "da0dcf60b7307f68667fecef8ccbb2b070bda7cf"
+                "reference": "1c5d286a849f302ac64a574d94caea32eb81effd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/da0dcf60b7307f68667fecef8ccbb2b070bda7cf",
-                "reference": "da0dcf60b7307f68667fecef8ccbb2b070bda7cf",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/1c5d286a849f302ac64a574d94caea32eb81effd",
+                "reference": "1c5d286a849f302ac64a574d94caea32eb81effd",
                 "shasum": ""
             },
             "require": {
@@ -219,7 +220,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-09 07:26:54"
+            "time": "2013-09-19 09:47:34"
         },
         {
             "name": "symfony/proxy-manager-bridge",
@@ -277,12 +278,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "6286e95889e326311ff90ae4f96ddc15d6db2c39"
+                "reference": "ef4878bcca171ebe7466be0505b85a710818d788"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/6286e95889e326311ff90ae4f96ddc15d6db2c39",
-                "reference": "6286e95889e326311ff90ae4f96ddc15d6db2c39",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/ef4878bcca171ebe7466be0505b85a710818d788",
+                "reference": "ef4878bcca171ebe7466be0505b85a710818d788",
                 "shasum": ""
             },
             "require": {
@@ -315,7 +316,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2013-08-29 06:54:01"
+            "time": "2013-09-22 18:04:51"
         },
         {
             "name": "zendframework/zend-code",
