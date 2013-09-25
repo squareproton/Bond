@@ -28,7 +28,10 @@ class ProxyFactoryNative implements Factory
 
     private function isInject($arg)
     {
-        return is_object($arg) and $arg instanceof Inject;
+       if (is_object($arg) and $arg instanceof Inject) return true;
+       if (is_object($arg) and $arg instanceof Definition and $arg->getClass() === Inject::class) return true;
+       if (is_object($arg) and $arg instanceof Reference and $this->isInject($this->container->getDefinition("$arg"))) return true;
+       return false;
     }
 
     private function validateCreateArgs($args) {
@@ -44,12 +47,15 @@ class ProxyFactoryNative implements Factory
         if (count($injectArgs) !== count($args)) {
             $n = count($injectArgs);
             $m = count($args);
-            throw new \Exception("method create expecting $n arguments, $m given");
+            throw new \Exception(
+                "method factory {$this->name}->create expecting $n arguments, $m given"
+            );
         }
     }
 
     public function create()
     {
+
         $createArguments = func_get_args();
 
         $this->validateCreateArgs($createArguments);

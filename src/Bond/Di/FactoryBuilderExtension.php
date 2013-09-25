@@ -42,15 +42,45 @@ class FactoryBuilderExtension implements ExtensionInterface
 
         $factoryDefinitions = [];
         foreach ($configs as $configTop) {
-            foreach ($configTop as $config) {
-                assert(array_key_exists(self::FACTORY_NAME, $config));
-                assert(array_key_exists(self::DEFINITION_NAME, $config));
-                assert(array_key_exists(self::FACTORY_SCOPE, $config));
-                $factoryDefinitions[] = $config;
+            if(0 === count($configTop))
+                continue;
+
+            // tests if configTop is associtive
+            if (array_keys($configTop) !== range(0, count($configTop) - 1)) {
+                foreach ($configTop as $factoryName => $definitionName) {
+                    $factoryDefinitions[] = [
+                        self::FACTORY_NAME => $factoryName,
+                        self::DEFINITION_NAME => $definitionName,
+                        self::FACTORY_SCOPE => "prototype"
+                    ];
+                }
+            } else {
+                foreach ($configTop as $config) {
+                    assert(array_key_exists(self::FACTORY_NAME, $config));
+                    assert(array_key_exists(self::DEFINITION_NAME, $config));
+                    assert(array_key_exists(self::FACTORY_SCOPE, $config));
+                    $factoryDefinitions[] = $config;
+                }
             }
         }
 
         foreach ($factoryDefinitions as $definition) {
+
+            if(
+                !$container->hasDefinition($config[self::DEFINITION_NAME]) and
+                0 === count(array_filter(
+                    $factoryDefinitions, 
+                    function($f)use($definition){
+                        return $f[self::FACTORY_NAME] === $definition[self::FACTORY_NAME];
+                    }
+                ))
+            ) {
+                throw new \Exception(sprintf(
+                    "no definition '%s' defined in container. existing definitions: " . implode(", ", array_keys($container->getDefinitions())),
+                    $config[self::DEFINITION_NAME]
+                ));
+            }
+
             $factoryName = $definition[self::FACTORY_NAME];
             $definitionName = $definition[self::DEFINITION_NAME];
             $factoryScope = $definition[self::FACTORY_SCOPE];
