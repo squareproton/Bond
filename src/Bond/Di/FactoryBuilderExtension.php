@@ -42,11 +42,25 @@ class FactoryBuilderExtension implements ExtensionInterface
 
         $factoryDefinitions = [];
         foreach ($configs as $configTop) {
-            foreach ($configTop as $config) {
-                assert(array_key_exists(self::FACTORY_NAME, $config));
-                assert(array_key_exists(self::DEFINITION_NAME, $config));
-                assert(array_key_exists(self::FACTORY_SCOPE, $config));
-                $factoryDefinitions[] = $config;
+            if(0 === count($configTop))
+                continue;
+
+            // tests if configTop is associtive
+            if (array_keys($configTop) !== range(0, count($configTop) - 1)) {
+                foreach ($configTop as $factoryName => $definitionName) {
+                    $factoryDefinitions[] = [
+                        self::FACTORY_NAME => $factoryName,
+                        self::DEFINITION_NAME => $definitionName,
+                        self::FACTORY_SCOPE => "prototype"
+                    ];
+                }
+            } else {
+                foreach ($configTop as $config) {
+                    assert(array_key_exists(self::FACTORY_NAME, $config));
+                    assert(array_key_exists(self::DEFINITION_NAME, $config));
+                    assert(array_key_exists(self::FACTORY_SCOPE, $config));
+                    $factoryDefinitions[] = $config;
+                }
             }
         }
 
