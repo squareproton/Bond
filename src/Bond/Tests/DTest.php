@@ -19,8 +19,7 @@ class DTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-//        $d->clear();
-        $d("fuck");
+        $d->clear();
         $d(array( array( array())));
 
     }

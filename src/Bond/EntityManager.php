@@ -19,7 +19,7 @@ use Bond\MagicGetter;
 use Bond\Repository;
 use Bond\RecordManager;
 
-class EntityManager
+class EntityManager implements \ArrayAccess, \Countable, \Iterator
 {
 
     use MagicGetter;
@@ -74,7 +74,6 @@ class EntityManager
         if( !isset( $this->repos[$entityClass] ) ) {
 
             $reflRepo = new \ReflectionClass($this->registrations[$entityClass]);
-
             $repo = $reflRepo->newInstance( $entityClass, $this );
             $this->repos[$entityClass] = $repo;
 
@@ -99,6 +98,7 @@ class EntityManager
 
         $this->names[$entityName] = $entityClass;
         $this->registrations[$entityClass] = $repositoryClass;
+        reset( $this->registrations );
 
     }
 
@@ -124,6 +124,50 @@ class EntityManager
             return $this->$key;
         }
         throw new UnknownPropertyForMagicGetterException( $this, $key );
+    }
+
+    /**
+     * \Countable interface
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->registrations);
+    }
+
+    /**
+     * \ArrayAccess interface
+     */
+    public function offsetSet($offset, $value) {
+        throw new \LogicException("You can't set a repository using array access. This doesn't make any sense.");
+    }
+    public function offsetUnset($offset) {
+        throw new \LogicException("You can't remove a repository from the record manager.");
+    }
+    public function offsetExists($offset) {
+        return $this->isRegistered($offset);
+    }
+    public function offsetGet($offset) {
+        return $this->getRepository($offset);
+    }
+
+    /**
+     * \Iterator interface
+     */
+    function rewind() {
+        return reset( $this->registrations );
+    }
+    function current() {
+        return $this->getRepository( key($this->registrations) );
+    }
+    function key() {
+        return key( $this->registrations );
+    }
+    function next() {
+        return next( $this->registrations );
+    }
+    function valid() {
+        return key($this->registrations) !== null;
     }
 
 }

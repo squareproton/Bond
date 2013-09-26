@@ -20,7 +20,7 @@ use Bond\Sql\Query as PgQuery;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class PgOidTest extends \Bond\Tests\EntityManagerProvider
+class PgLargeObjectTest extends \Bond\Pg\Tests\PgProvider
 {
 
     static $filesToUnlink = array();

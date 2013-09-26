@@ -9,9 +9,9 @@
 
 namespace Bond\Entity\Types;
 
+use Bond\Exception\BadDateTimeException;
 use Bond\Sql\QuoteInterface;
 use Bond\Sql\SqlInterface;
-use Bond\Exception\BadDateTimeException;
 
 use Bond\MagicGetter;
 
@@ -292,6 +292,8 @@ class DateTime extends \DateTime implements SqlInterface, \JsonSerializable, \Se
     {
         if( $this->isInfinity() ) {
             return $this;
+        } elseif (is_string($interval) ) {
+            $interval = new \DateInterval($interval);
         }
         return parent::add( $interval );
     }

@@ -56,6 +56,19 @@ class DateRangeTest extends PgProvider
 
     }
 
+    public function testMakeFromString()
+    {
+        $l = new DateTime('2001-01-01');
+        $u = new DateTime('2001-01-02');
+        $range = new DateRange( $l, $u, DateRange::LOWER_CONTAIN | DateRange::UPPER_CONTAIN );
+
+        $this->assertTrue( DateRange::makeFromString( (string) $range ) instanceof DateRange );
+        $this->assertSame( (string) DateRange::makeFromString( (string) $range ), (string) $range );
+
+        $range = new DateRange( $l, $u, DateRange::LOWER_CONTAIN_NOT | DateRange::UPPER_CONTAIN_NOT );
+        $this->assertSame( (string) DateRange::makeFromString( (string) $range ), (string) $range );
+    }
+
     public function testSqlInterface()
     {
 

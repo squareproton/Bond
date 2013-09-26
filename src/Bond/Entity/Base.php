@@ -22,7 +22,7 @@ use Bond\RecordManager\Task;
 /**
  * Base class for managing, manipulating and saving objects
  */
-abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \Countable, \Serializable
+abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \Countable, \Serializable, \JsonSerializable
 {
 
     /**
@@ -331,6 +331,15 @@ abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \C
         $data = unserialize( $data );
         $this->data = $data[0];
         $this->lateLoadKey = $data[1];
+    }
+
+    /**
+     * Implments \JsonSerialize
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return $this->data;
     }
 
     /**

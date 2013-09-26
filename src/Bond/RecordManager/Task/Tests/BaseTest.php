@@ -12,8 +12,6 @@ namespace Bond\RecordManager\Task\Tests;
 use Bond\RecordManager\Task;
 use Bond\RecordManager\Task\Base;
 
-use Bond\Pg\Tests\PgProvider;
-
 class BaseTest extends \Bond\Tests\EntityManagerProvider
 {
 

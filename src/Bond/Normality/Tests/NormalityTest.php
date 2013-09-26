@@ -10,13 +10,12 @@
 namespace Bond\Normality\Tests;
 
 use Bond\Normality\MatchRelation\Closure;
-use Bond\Tests\EntityManagerProvider;
 use Bond\Pg\Catalog;
 
 use Bond\Normality\Options;
 use Bond\Normality;
 
-class NormalityTest extends EntityManagerProvider
+class NormalityTest extends \Bond\Tests\EntityManagerProvider
 {
 
     public function testRelationNameToOid()

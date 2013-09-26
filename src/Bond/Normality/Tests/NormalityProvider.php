@@ -104,6 +104,12 @@ SQL
         // register entities with entityManager
         new EMR( $this->entityManager );
 
+        // add all the repos as properties on the object
+        foreach( $this->entityManager as $entity => $repo ) {
+            $entityName = \Bond\get_unqualified_class( $entity );
+            $this->$entityName = $repo;
+        }
+
     }
 
     public function getNumRowsInTable($table)

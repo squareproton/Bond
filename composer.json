@@ -19,7 +19,6 @@
         },
         "files": [
             "src/Bond/functions.php",
-            "src/Bond/functions_debug.php",
             "lib/php-ref/ref.php",
             "lib/underscore.php",
             "lib/php-ref-config.php"

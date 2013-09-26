@@ -56,7 +56,7 @@ namespace Bond {
             curl_setopt($ch, CURLOPT_URL, $this->getRequestUrl() );
             curl_setopt($ch, CURLOPT_TIMEOUT, 1);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json'] );
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data) );
 
             $response = curl_exec($ch);

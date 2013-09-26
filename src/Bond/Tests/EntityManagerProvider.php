@@ -9,12 +9,10 @@
 
 namespace Bond\Tests;
 
-use Bond\Pg\Tests\PgProvider;
-
 /**
  * @service testEntityManager
  */
-class EntityManagerProvider extends PgProvider
+class EntityManagerProvider extends \Bond\Pg\Tests\PgProvider
 {
     public $entityManager;
 }

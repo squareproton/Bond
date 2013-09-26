@@ -16,7 +16,7 @@ use Bond\RecordManager\Task\Base;
 
 use Bond\Sql\Query;
 
-class RecordManagerTest extends \Bond\Tests\EntityManagerProvider
+class RecordManagerTest extends \Bond\Normality\Tests\NormalityProvider
 {
 
     public function testGetTransaction1()

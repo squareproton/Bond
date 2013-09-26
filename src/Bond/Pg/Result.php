@@ -297,7 +297,7 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
         $output = array();
 
         // build output array
-        // slight repetition of code here to help us avoid the isset( $types ) check for every row (there might be a __lot__ of rows so this adds up).
+        // slight repetition of code here to help us avoid the isset( $types ) check for every row (there might be a __lot__ so this adds up).
         pg_result_seek( $this->resource, 0 );
         if( null === $keyResultsByColumn ) {
             while( $row = pg_fetch_array( $this->resource, NULL, $this->fetchType ) ) {

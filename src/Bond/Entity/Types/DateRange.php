@@ -9,14 +9,17 @@
 
 namespace Bond\Entity\Types;
 
-use Bond\Sql\QuoteInterface;
-use Bond\Sql\SqlInterface;
-use Bond\Exception\NotImplementedYet;
-
 use Bond\Entity\Types\DateInterval;
 use Bond\Entity\Types\DateTime;
 
+use Bond\Exception\BadDateTimeException;
+use Bond\Exception\BadTypeException;
+use Bond\Exception\NotImplementedYet;
+
 use Bond\MagicGetter;
+
+use Bond\Sql\QuoteInterface;
+use Bond\Sql\SqlInterface;
 
 use Serializable;
 
@@ -56,6 +59,45 @@ class DateRange implements SqlInterface, Serializable
     }
 
     /**
+     * Static entry point to generate a date rnage object from a string representation of a tsrange
+     * @return Bond\Entity\Type\DateRange
+     */
+    public static function makeFromString( $range )
+    {
+
+        if( !is_string($range) ) {
+            throw new BadTypeException( $range, 'string' );
+        }
+        if( !preg_match(
+                '/^
+                    (\\(|\\[)
+                    (["\']?)(.*)?\2
+                    ,
+                    (["\']?)(.*)?\4
+                    (\\)|\\])
+                $/x',
+                $range,
+                $matches
+            )
+        ) {
+            throw new BadTypeException( $range, 'DateTime string representation');
+        }
+
+        $lower = new DateTime($matches[3]);
+        $upper = new DateTime($matches[5]);
+        $bounds  = ( $matches[1] === '[' ? self::LOWER_CONTAIN : self::LOWER_CONTAIN_NOT );
+        $bounds += ( $matches[6] === ']' ? self::UPPER_CONTAIN : self::UPPER_CONTAIN_NOT );
+
+        // inistante object without going via constructer to allow us to save on validation
+        $refl = new \ReflectionClass( __CLASS__ );
+        $obj = $refl->newInstanceWithoutConstructor();
+        $obj->lower = $lower;
+        $obj->upper = $upper;
+        $obj->bounds = $bounds;
+        return $obj;
+    }
+
+    /**
      * Serialization interface
      * @return string
      */
@@ -64,7 +106,7 @@ class DateRange implements SqlInterface, Serializable
         return json_encode([
             serialize( $this->lower ),
             serialize( $this->upper ),
-            $bound
+            $this->bounds
         ]);
     }
 
