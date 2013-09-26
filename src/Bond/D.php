@@ -64,7 +64,7 @@ namespace Bond {
 
             // have any problems
             if( $response === false ) {
-                throw new \Exception("Unable to connect to debugger as `{$ur}`");
+                throw new \Exception("Unable to connect to debugger as `{$this->url}`");
             } elseif ( $curlInfo['http_code'] !== 200 ) {
                 throw new \Exception($response);
             }
