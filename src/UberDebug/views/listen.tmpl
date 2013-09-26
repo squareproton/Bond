@@ -8,6 +8,7 @@
     <!-- Bootstrap -->
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <link href="/css/ref.css" rel="stylesheet" media="screen">
+    <link href="/css/base.css" rel="stylesheet" media="screen">
 
     <script type="text/javascript" src="/shjs/sh_main.js"></script>
     <script type="text/javascript" src="/shjs/lang/sh_sql.js"></script>
@@ -41,17 +42,30 @@
 
     </head>
     <body>
+
         <div id='rTip'></div>
-        <nav class="navbar navbar-default" role="navigation">
-            <div class="container-fluid">
-                <div class="row-fluid  titlerow">
-                    <div class="span12">
-                        <h3 class="text-left">uber<span>debug</span></h3>
-                        <ul class="breadcrumb">{{{ breadcrumbs }}}</ul>
-                    </div>
+        <div class="container-fluid">
+            <div class="row-fluid titlerow">
+                <h3 class="pull-left">uber<span>debug</span></h3>
+                <div class="ubercontrol pull-right">
+                    <span class="badge">42</span>
+                    <a href='#' class="btn btn-warning stop">Stop <i class='icon-large icon-white icon-stop'></i></a>
+                    <a href='#' class="btn btn-success start">Start <i class='icon-large icon-white icon-play'></i></a>
+                    <span class="dropdown pull-right">
+                        <a href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Options <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href='#' class='show-trace'>show (t)race</a></li>
+                            <li><a href='#' class='content-append'>(a)ppend</a></li>
+                            <li><a href='#' class='content-prepend'>(p)repend</a></li>
+                            <li><a href='#' class='toggle-expand'>e(x)pand / hide detail</a></li>
+                        </ul>
+                    </span>
                 </div>
             </div>
-        </nav>
+            <nav class="navbar navbar-default" role="navigation">
+                <ul class="breadcrumb">{{{ breadcrumbs }}}</ul>
+            </nav>
+        </div>
         <div id='container' class='container-fluid'></div>
 
         <script src="/js/jquery-2.0.3.min.js"></script>
