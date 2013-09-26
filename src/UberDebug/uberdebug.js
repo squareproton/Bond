@@ -149,20 +149,20 @@ io.sockets.on('connection', function (socket) {
             socket.emit( 'debug', messageData );
         });
 
-        setTimeout(function(){
-            var debug = {
-                handler: 'php-ref',
-                args: [
-                    // fs.readFileSync( __dirname+'/views/refExample.html').toString(),
-                    '<!-- ref#0 --><div><div class="ref"><b data-input><i>&gt; </i><b data-expTxt>true</b></b><b data-output><b data-true data-tip="0">true</b></b><div><b data-row><b data-cell><b data-title>boolean</b></b></b></div></div></div>',
-                    [
-                        "sometrace information",
-                        "more trace",
-                    ]
-                ]
-            };
-            redisPub.publish( 'uberdebug.spanner.fishgoat', JSON.stringify(debug) );
-        }, 1000);
+//        setTimeout(function(){
+//            var debug = {
+//                handler: 'php-ref',
+//                args: [
+//                    // fs.readFileSync( __dirname+'/views/refExample.html').toString(),
+//                    '<!-- ref#0 --><div><div class="ref"><b data-input><i>&gt; </i><b data-expTxt>true</b></b><b data-output><b data-true data-tip="0">true</b></b><div><b data-row><b data-cell><b data-title>boolean</b></b></b></div></div></div>',
+//                    [
+//                        "sometrace information",
+//                        "more trace",
+//                    ]
+//                ]
+//            };
+//            redisPub.publish( 'uberdebug.spanner.fishgoat', JSON.stringify(debug) );
+//        }, 1000);
 
 
     });

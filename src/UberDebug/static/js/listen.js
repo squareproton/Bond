@@ -1,41 +1,35 @@
-
-
 // options management - this is stored in localStorage to avoid any session management fuckery server side
 var options = {
-    clearEachRequest: true,
-    addStrategy: 'appendTo',
-    running: true,
+    showTrace: false,
+    content: 'append'
 };
 
+var eventObj = {};
+
 // add a few unenumerable functions to the options object
-Object.defineProperties(
-    options,
-    {
-        persist: {
-            value: function(){
-                var serialized = {};
-                for( var key in this ) {
-                    serialized[key] = this[key];
-                }
-                localStorage.setItem('uberdebug.options', JSON.stringify(serialized));
-            }
-        },
-        unpersist: {
-            value: function(){
-                var serialized = localStorage.getItem('uberdebug.options');
-                if( serialized ) {
-                    serialized = JSON.parse( serialized );
-                    for( var key in serialized ) {
-                        this[key] = serialized[key];
-                    }
-                }
-            }
+function setOption (key, value) {
+    options[key] = value;
+    $(eventObj).trigger(key);
+    var serialized = {};
+    for( var key in options ) {
+        serialized[key] = options[key];
+    }
+    localStorage.setItem('uberdebug.options', JSON.stringify(serialized));
+}
+
+function loadOptionsFromLocalStorage() {
+    var serialized = localStorage.getItem('uberdebug.options');
+    if( serialized ) {
+        serialized = JSON.parse( serialized );
+        for( var key in serialized ) {
+            options[key] = serialized[key];
         }
     }
-);
+}
 
-// load old page options
-options.unpersist();
+loadOptionsFromLocalStorage();
+
+setOption( 'showTrace', !options.showTrace );
 
 // format our trace up html style
 var traceTemplate = _.template("<div data-location='<%= location %>'><%= location %> <%= '' %></div>");
@@ -119,16 +113,16 @@ $(function(){
 
 });
 
+// manage the incrementing intervals
 function formatInterval(ms) {
     return Math.round(ms/100)/10 + 's ago';
 }
 
-setInterval(function(){
-
+function updateDisplay() {
     var now = new Date().getTime();
     $('.when').each(function(){
         this.innerHTML = formatInterval( now - this.getAttribute('data-when') );
     });
+}
 
-}, 1000);
-
+setInterval(updateDisplay, 500);
