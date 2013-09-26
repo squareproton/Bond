@@ -154,8 +154,8 @@ class Options
     public function getMatchingRelations( &$skipping )
     {
 
-        $processing = $this->catalog->pgClasses->newContainer();
-        $skipping = $this->catalog->pgClasses->newContainer();
+        $processing = $this->catalog->pgClasses->newEmptyContainer();
+        $skipping = $this->catalog->pgClasses->newEmptyContainer();
 
         // get all the relations in the database
         $relations = $this->catalog->pgClasses

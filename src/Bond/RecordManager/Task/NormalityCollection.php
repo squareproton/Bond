@@ -58,7 +58,7 @@ abstract class NormalityCollection extends Normality
         }
 
         // Pete. Humm. Not sure we even need this one. It probably is enough to be of the correct type.
-        if( $firstElement = $object->firstElementGet() ) {
+        if( $firstElement = $object->peak() ) {
             return parent::isCompatible( $firstElement, $error );
         }
 

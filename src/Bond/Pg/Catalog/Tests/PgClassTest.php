@@ -150,7 +150,7 @@ SQL
 
         $attrs = $a1->getUniqueAttributes();
         // Pete. I don't like this. Too hacky.
-        $id = $attrs->firstElementGet();
+        $id = $attrs->peak();
 
         $this->assertSame( count($attrs), 1 );
         $this->assertSame( $id->name, 'id' );

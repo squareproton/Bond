@@ -278,7 +278,7 @@ class RecordManager
     public function delete( $object, $transaction = self::TRANSACTION_LAST_USED )
     {
         // this'll throw a exception if anything isn't right
-        $task = Task::init( $object, Task::DELETE );
+        $task = $task->getTask( $object, Task::DELETE );
         $transaction = $this->getTransaction($transaction,true);
         $this->queue[$transaction][] = $task;
         return $this;

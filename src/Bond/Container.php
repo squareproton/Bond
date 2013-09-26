@@ -134,7 +134,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
     public function copy( $deep = false )
     {
         if( $deep ) {
-            $output = $this->newContainer();
+            $output = $this->newEmptyContainer();
             foreach( $this->collection as $entity ) {
                 if( method_exists($entity, 'copy') ) {
                     $copy = $entity->copy( true );
@@ -145,7 +145,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
             }
             $output->class = $this->class;
         } else {
-            $output = $this->newContainer();
+            $output = $this->newEmptyContainer();
             $output->collection = $this->collection;
             $output->propertyMapper = $this->propertyMapper;
             $output->class = $this->classGet();
@@ -518,7 +518,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
      * the internal state pointer (or otherwise)
      * @return ContainerableInterface|null
      */
-    public function firstElementGet()
+    public function peak()
     {
         $keys = array_keys( $this->collection );
         if( $keys ) {
@@ -635,7 +635,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
 
         }
 
-        $output = $this->newContainer(
+        $output = $this->newEmptyContainer(
             call_user_func_array(
                 $fn,
                 $fnArguments
@@ -731,7 +731,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
         // anything to give?
         if( 0 === $containerSize = $this->count() ) {
             if( $returnContainer or $n > 1 ) {
-                return $this->newContainer();
+                return $this->newEmptyContainer();
             }
             return null;
         }
@@ -747,13 +747,13 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
             }
 
             return $returnContainer
-                ? $this->newContainer( $entity )
+                ? $this->newEmptyContainer( $entity )
                 : $entity
                 ;
 
         }
 
-        $output = $this->newContainer();
+        $output = $this->newEmptyContainer();
 
         // to protected against the peculiar, $n = 0 still returns one element
         if( $n > 1 ) {
@@ -930,7 +930,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
         return isset( $this->class )
             ? $this->class
             : (
-                  ( $firstElement = $this->firstElementGet() )
+                  ( $firstElement = $this->peak() )
                 ? ( $this->class = get_class( $firstElement ) )
                 : null
               )
@@ -952,7 +952,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
 
         $output = array();
         foreach( $classes as $class => $splHashes ) {
-            $container = $this->newContainer();
+            $container = $this->newEmptyContainer();
             $container->class = $class;
             $container->collection = array_intersect_key(
                 $this->collection,
@@ -1003,7 +1003,7 @@ class Container implements \Iterator, \ArrayAccess, \Countable, SqlCollectionInt
      * Generate a new empty container of the same type as what is currently instantiated
      * @param string
      */
-    public function newContainer()
+    public function newEmptyContainer()
     {
         $refl = new ReflectionClass($this);
         $container = $refl->newInstanceArgs(func_get_args());

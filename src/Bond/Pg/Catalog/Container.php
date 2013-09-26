@@ -43,7 +43,7 @@ class Container extends BaseContainer
 
        }
 
-    public function newContainer()
+    public function newEmptyContainer()
     {
         $container = new BaseContainer();
         $container->classSet($this->class);
