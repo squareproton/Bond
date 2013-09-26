@@ -9,11 +9,12 @@
 
 namespace Bond;
 
+use Bond\Database\DatabaseInterface;
+use Bond\Database\ResourceInterface;
+
 use Bond\Exception\BadTypeException;
 use Bond\Exception\DepreciatedException;
 
-use Bond\Database\DatabaseInterface;
-use Bond\Database\ResourceInterface;
 use Bond\Pg\Exception\MissingParameterStateException;
 use Bond\Pg\QueryExceptionFactory;
 use Bond\Pg\Resource;

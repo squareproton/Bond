@@ -20,7 +20,6 @@ class DTest extends \PHPUnit_Framework_TestCase
         );
 
         $d->clear();
-        $d(array( array( array())));
-
+        $d(array(array(array())));
     }
 }
