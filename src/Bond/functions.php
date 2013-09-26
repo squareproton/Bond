@@ -13,7 +13,7 @@ namespace {
     function d()
     {
 
-        $d = new \Bond\D("192.168.2.17", "hello/world", []);
+        $d = new \Bond\D("192.168.2.17", "hello/world", ["showPrivateMembers" => true, "expLvl" => 2]);
         return call_user_func_array([$d, '__invoke'], func_get_args());
     }
 
