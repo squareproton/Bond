@@ -64,7 +64,7 @@ class DateRange implements SqlInterface, Serializable
         return json_encode([
             serialize( $this->lower ),
             serialize( $this->upper ),
-            $bound
+            $this->bounds
         ]);
     }
 

@@ -22,6 +22,7 @@ use Bond\Entity\Types\Hstore;
 use Bond\Entity\Types\Inet;
 use Bond\Entity\Types\Json;
 use Bond\Entity\Types\Oid;
+use Bond\Entity\Types\DateRange;
 use Bond\Entity\Types\PgLargeObject;
 use Bond\Entity\Types\StockState;
 
@@ -63,6 +64,35 @@ class StaticMethods
             return $dateTime;
         }
         return new DateTime( $dateTime );
+    }
+
+    /**
+     * Get datetime from Entity
+     * @param DateRange $dateRange
+     * @return DateRange
+     */
+    public static function get_DateRange( &$dateRange )
+    {
+        if( $dateRange instanceof DateRange ) {
+            return $dateRange;
+        }
+        return !is_null($dateRange)
+            ? new DateRange( $dateRange )
+            : null
+            ;
+    }
+
+    /**
+     * Set entity datetime
+     * @param DateRange $dateRange
+     * @return DateRange
+     */
+    public static function set_DateRange( $dateRange )
+    {
+        if( $dateRange instanceof DateRange ) {
+            return $dateRange;
+        }
+        return new DateRange( $dateRange );
     }
 
     /**
