@@ -10,11 +10,13 @@
     <link href="/css/ref.css" rel="stylesheet" media="screen">
     <link href="/css/base.css" rel="stylesheet" media="screen">
 
+<!--
     <script type="text/javascript" src="/shjs/sh_main.js"></script>
     <script type="text/javascript" src="/shjs/lang/sh_sql.js"></script>
     <script type="text/javascript" src="/shjs/lang/sh_javascript.js"></script>
     <script type="text/javascript" src="/shjs/lang/sh_php.js"></script>
     <link href="/shjs/sh_style.css" rel="stylesheet" media="screen">
+-->
 
     <script type='text/javascript'>
         var route = {{{ route }}};
@@ -22,11 +24,13 @@
 
     <script type='text/html' id='phpref'>
         <div>
-            <div class='text-right'><span class='when' data-when='<%= new Date().getTime() %>'><br/></span></div>
-            <div class="row-fluid">
-                <div class="span8 php-ref"><%= html %></div>
-                <div class="span4 trace"><%= trace %></div>
-            </div>
+            <span># <%= numMessages %>
+            <span class='when pull-right'><%= moment().format("YYYY-MM-DDTHH:mm:ss.SSS") %></span>
+            <span class='age pull-right' data-when='<%= new Date().getTime() %>'><br/></span>
+        </div>
+        <div class="row-fluid">
+            <div class="span9 nottrace php-ref overflowx"><%= html %></div>
+            <div class="span3 trace overflowx"><%= trace %></div>
         </div>
     </script>
 
@@ -34,8 +38,8 @@
         <div>
             <div class='text-right'><span class='when' data-when='<%= new Date().getTime() %>'></span></div>
             <div class="row-fluid">
-                <div class="span8 shjs"><%= text %></div>
-                <div class="span4 trace"><% trace %></div>
+                <div class="span9 shjs"><%= text %></div>
+                <div class="span3 trace"><% trace %></div>
             </div>
         </div>
     </script>
@@ -48,18 +52,18 @@
             <div class="row-fluid titlerow">
                 <h3 class="pull-left">uber<span>debug</span></h3>
                 <div class="ubercontrol pull-right">
-                    <span class="badge">42</span>
-                    <a href='#' class="btn btn-warning stop">Stop <i class='icon-large icon-white icon-stop'></i></a>
-                    <a href='#' class="btn btn-success start">Start <i class='icon-large icon-white icon-play'></i></a>
                     <span class="dropdown pull-right">
                         <a href="#" class="dropdown-toggle btn btn-info" data-toggle="dropdown">Options <b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li><a href='#' class='show-trace'>show (t)race</a></li>
+                            <li><a href='#' class='show-trace'>(t)race</a></li>
                             <li><a href='#' class='content-append'>(a)ppend</a></li>
                             <li><a href='#' class='content-prepend'>(p)repend</a></li>
                             <li><a href='#' class='toggle-expand'>e(x)pand / hide detail</a></li>
                         </ul>
                     </span>
+                    <span class="badge">0</span>
+                    <a href='#' class="btn btn-warning stop pull-right">Stop <i class='icon-large icon-white icon-stop'></i></a>
+                    <a href='#' class="btn btn-success start pull-right">Start <i class='icon-large icon-white icon-play'></i></a>
                 </div>
             </div>
             <nav class="navbar navbar-default" role="navigation">
@@ -73,6 +77,7 @@
         <script src="/js/ref.js"></script>
         <script src="/js/underscore-min.js"></script>
         <script src="/js/underscore.string.min.js"></script>
+        <script src="/js/moment.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
         <script src="/js/listen.js"></script>
 

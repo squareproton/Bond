@@ -2,12 +2,42 @@
     color: rgba( 0, 200, 0, 1 );
 }
 
+.overflowx {
+    overflow-x: auto;
+}
+
 .ubercontrol {
     bottom: 15px;
     position: relative;
     top: 15px;
 }
 
+.ubercontrol .badge,
+.ubercontrol .btn {
+    margin-right: 10px;
+}
+
+.show-trace.active {
+    background-color: #777;
+}
+
+.ubercontrol .start,
+.ubercontrol .stop {
+    display: none;
+}
+
+.when {
+    margin-left: 20px;
+    opacity: 0.3;
+}
+
 .shjs {
     white-space: pre;
+}
+
+#container.hideTrace .nottrace {
+    width: 100%;
+}
+#container.hideTrace .trace {
+    display: none;
 }
