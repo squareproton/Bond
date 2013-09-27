@@ -66,21 +66,6 @@ class FactoryBuilderExtension implements ExtensionInterface
 
         foreach ($factoryDefinitions as $definition) {
 
-            if(
-                !$container->hasDefinition($config[self::DEFINITION_NAME]) and
-                0 === count(array_filter(
-                    $factoryDefinitions, 
-                    function($f)use($definition){
-                        return $f[self::FACTORY_NAME] === $definition[self::FACTORY_NAME];
-                    }
-                ))
-            ) {
-                throw new \Exception(sprintf(
-                    "no definition '%s' defined in container. existing definitions: " . implode(", ", array_keys($container->getDefinitions())),
-                    $config[self::DEFINITION_NAME]
-                ));
-            }
-
             $factoryName = $definition[self::FACTORY_NAME];
             $definitionName = $definition[self::DEFINITION_NAME];
             $factoryScope = $definition[self::FACTORY_SCOPE];
