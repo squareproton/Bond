@@ -64,7 +64,7 @@ namespace Bond {
 
             // have any problems
             if( $response === false ) {
-                throw new \Exception("Unable to connect to debugger as `{$ur}`");
+                throw new \Exception("Unable to connect to debugger as `{$this->url}`");
             } elseif ( $curlInfo['http_code'] !== 200 ) {
                 throw new \Exception($response);
             }
@@ -102,7 +102,7 @@ namespace Bond {
                 $output[$option] = ref::config($option);
                 ref::config($option, $value);
             }
-            return $options;
+            return $output;
         }
 
         public function clear()
@@ -119,8 +119,9 @@ namespace Bond {
         {
 
             $trace = $this->formatTrace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
-
+            $originalRefOptions = $this->setRefConfig($this->phpRefOptions);
             $ref = new ref('html');
+
             foreach( func_get_args() as $arg ) {
 
                 ob_start();
@@ -138,6 +139,8 @@ namespace Bond {
                 );
 
             }
+
+            $this->setPhpRefOptions($originalRefOptions);
 
         }
 

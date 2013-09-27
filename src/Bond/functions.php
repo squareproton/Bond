@@ -7,6 +7,18 @@
  * file that was distributed with this source code.
  */
 
+
+namespace {
+
+    function d()
+    {
+
+        $d = new \Bond\D("192.168.2.17", "hello/world", ["showPrivateMembers" => true, "expLvl" => 2]);
+        return call_user_func_array([$d, '__invoke'], func_get_args());
+    }
+
+}
+
 /**
  * A collection of global functions that are always included / available
  */

@@ -108,7 +108,8 @@ class FactoryBuilderExtension implements ExtensionInterface
      */
     public function getNamespace()
     {
-        return 'http://example.org/schema/dic/'.$this->getAlias();
+        //return 'http://example.org/schema/dic/'.$this->getAlias();
+        return self::ALIAS;
     }
 
     public function getAlias()
