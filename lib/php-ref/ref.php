@@ -187,7 +187,6 @@ class ref{
 
     }else{
       $format = isset(static::$config['formatters'][$format]) ? static::$config['formatters'][$format] : 'R' . ucfirst($format) . 'Formatter';
-
       if(!class_exists($format))
         throw new \Exception(sprintf('%s class not found', $format));
 

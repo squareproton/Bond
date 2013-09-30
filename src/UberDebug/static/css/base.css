@@ -2,6 +2,19 @@
     color: rgba( 0, 200, 0, 1 );
 }
 
+.syntax-highlight-container .lang {
+    margin-left: 5px;
+}
+
+.syntax-highlight-container .syntaxHighlight {
+    border-left: 2px solid #666;
+    padding-left: 5px;
+    white-space: pre;
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    margin-top: 3px;
+    min-height: 0;
+}
+
 .overflowx {
     overflow-x: auto;
 }
@@ -17,6 +30,16 @@
     margin-right: 10px;
 }
 
+.ubercontrol,
+.title-row * {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 .show-trace.active {
     background-color: #777;
 }
@@ -29,6 +52,7 @@
 .when {
     margin-left: 20px;
     opacity: 0.3;
+    user-select: none;
 }
 
 .shjs {
@@ -40,4 +64,8 @@
 }
 #container.hideTrace .trace {
     display: none;
+}
+
+#container > div + div {
+    margin-top: 5px;
 }

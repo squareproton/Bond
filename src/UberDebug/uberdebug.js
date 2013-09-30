@@ -33,6 +33,7 @@ io.configure(function() {
 // serve static files
 app.use(express.favicon(__dirname + '/static/favicon.ico'));
 app.use(express.static(__dirname+'/static'));
+app.use(express.limit('128mb'));
 
 // make the content-type application/json
 app.use( function (req, res, next) {
@@ -70,6 +71,7 @@ app.get('/*', function(req, res){
         res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
         res.render(
             'listen.tmpl', {
+//            'listenMinimalTestCase.tmpl', {
                 breadcrumbs: getBreadcrumbsHtml(routeParams),
                 route: JSON.stringify(routeParams)
             }
