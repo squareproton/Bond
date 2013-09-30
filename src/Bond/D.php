@@ -61,12 +61,22 @@ namespace Bond {
             throw new \InvalidArgumentException("Unknown property `{$property}`.");
         }
 
+        /**
+         * Set the channel you with to subscribe to
+         * @param string Channel use use
+         * @return Bond\D
+         */
         public function setChannel( $channel )
         {
             $this->channel = ltrim( (string) $channel, '/' );
             return $this;
         }
 
+        /**
+         * Set phpref options that will be used by this instance of D
+         * @param array
+         * @return Bond\D
+         */
         public function setPhpRefOptions( array $phpRefOptions )
         {
             if( !array_key_exists('stylePath', $phpRefOptions) ) {
@@ -79,6 +89,10 @@ namespace Bond {
             return $this;
         }
 
+        /**
+         * Get the debug request url
+         * @return string The url where the debugger can be accessed from
+         */
         public function getRequestUrl()
         {
             return "http://{$this->host}:1025/{$this->channel}";
@@ -239,6 +253,7 @@ namespace Bond {
     }
 
     // modified version of RHtmlFormatter which doesn't have the nesting bug
+    // ideally this should be fixed upstream
     // see RHtmlFormatter
 
     /**
