@@ -4,7 +4,8 @@ namespace Bond\Tests;
 
 use Bond\D;
 
-class DTest extends \PHPUnit_Framework_TestCase
+// class DTest extends \Bond\Normality\Tests\NormalityProvider
+class DTest extends \PHPUnit_Framework_Testcase
 {
     public function testSomething()
     {
@@ -15,15 +16,26 @@ class DTest extends \PHPUnit_Framework_TestCase
             [
                 'showMethods' => false,
                 'showPrivateMembers' => true,
-                'expLvl' => 3
+                'expLvl' => 2
             ]
         );
 
-//        $d(microtime());
-        $d->syntaxHighlight("Something");
+//        $d->clear();
 
-        // $d->clear();
-        // $d(array(array(array())));
+        $d( $this );
+
+        $d( [0 => [ 1 => [ 2=> [ 3 => []]]]] ); // first time php-ref has this bug
+
+        $d->syntaxHighlight( <<<SQL
+            SELECT
+                *
+            FROM
+                sometable
+            WHERE
+                something = true
+SQL
+        );
+
 
     }
 }

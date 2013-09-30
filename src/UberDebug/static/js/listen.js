@@ -29,6 +29,7 @@ function loadOptionsFromLocalStorage() {
     }
 }
 
+// pull out local options
 loadOptionsFromLocalStorage();
 
 $(eventObj).on('socketConnection', function (e, state) {
@@ -83,11 +84,11 @@ window.addEventListener('keydown', function(e){
         case 65: // 'a'
             setOption('content', 'append');
             return;
-        case 67: // 'c'
-            $(eventObj).trigger('clearAll');
-            return;
         case 80: // 'p'
             setOption('content', 'prepend' );
+            return;
+        case 82: // 'r'
+            $(eventObj).trigger('clearAll');
             return;
         case 83: //
             $(eventObj).trigger('stopstartrequest');
@@ -128,7 +129,7 @@ $('script[type="text/html"]').each(function(){
 
 // register our handlers for the various different types of debug messges we expect to get
 var handlers = {}
-handlers['php-ref'] = function (html, trace) {
+handlers['php-ref'] = function (html, trace, original) {
 
     var row = document.createElement('div');
     row.innerHTML = templates.phpref({
@@ -153,24 +154,23 @@ handlers['clear'] = function () {
 
 handlers['syntaxHighlight'] = function (text, lang, trace) {
 
-    console.log( text );
-    return;
-
-    var $row = $(templates.syntaxHighlight({
+    var row = document.createElement('div');
+    row.className = 'syntax-highlight-container';
+    row.innerHTML = templates.syntaxHighlight({
         text: text, // textsh_highlightString(text, lang),
         lang: lang,
         trace: traceToHtml(trace)
-    }));
+    });
 
-    $row.find('.shjs').each(function(){
+    $(row).find('.syntaxHighlight').each(function(){
+        // use whatever syntax highlighting editor to
         //console.log(this);
-         //sh_highlightElement(this, '.js');
     });
 
     if( options.content === 'append' ) {
-        $container.append($row);
+        $container.append(row);
     } else {
-        $container.prepend($row);
+        $container.prepend(row);
     }
 
 }
