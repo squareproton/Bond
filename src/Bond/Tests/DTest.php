@@ -10,6 +10,8 @@ class DTest extends \PHPUnit_Framework_Testcase
     public function testSomething()
     {
 
+        d("fuck");
+
         $d = new D(
             '192.168.2.17',
             'unittest/pete',
