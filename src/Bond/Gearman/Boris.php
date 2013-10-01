@@ -151,7 +151,7 @@ class Boris extends GearmanWorker
                 if( ob_get_length() ) {
                     $buffer = ob_get_contents();
                     ob_clean();
-                    throw new JobUsesStdOut( $buffer );
+                    throw new JobUsesStdOutException( $buffer );
                 }
                 ob_flush();
 
