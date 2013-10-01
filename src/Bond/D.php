@@ -111,13 +111,18 @@ namespace Bond {
             );
         }
 
+        public function __invoke()
+        {
+            return call_user_func_array([$this, "log"], func_get_args());
+        }
+
         /**
          * Debug a arbritary number of objects
          *
          * @param mixed Item to debug
          * @param ...
          */
-        public function __invoke()
+        public function log()
         {
 
             $trace = $this->formatTrace(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
