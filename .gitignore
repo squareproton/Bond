@@ -1,8 +1,11 @@
-todo
-vendor/
-Node/
-src/Bond/Normality/UnitTest
-*.php~
 **/*.DS_Store
 **/.directory
 **/node_modules
+*._*
+*.php~
+*.sublime-project
+*.sublime-workspace
+Node/
+src/Bond/Normality/UnitTest
+todo
+vendor/
