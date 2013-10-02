@@ -8,7 +8,6 @@
 }
 */
 
-
 CREATE TABLE a1
 (
     id serial NOT NULL,
