@@ -107,4 +107,21 @@ class RandomTest extends \PHPUnit_Framework_Testcase
 
     }
 
+    public function testCoalesce()
+    {
+        $one = new Random\Nullify( new Random\Callback(function(){return 1;}), 0.5 );
+        $coalesce = new Random\Coalesce( $one, 0 );
+
+        $c = 0;
+        $output = [0,0];
+        while( $c++ < 50000 ) {
+             $output[$coalesce()]++;
+        }
+
+        $ratio = $output[0] / $output[1];
+        $this->assertTrue( $ratio > .98 and $ratio < 1.02 );
+
+        $this->assertSame( $coalesce(), $coalesce->last() );
+    }
+
 }

@@ -16,7 +16,7 @@ class Implode implements RandomInterface
     {
         $values = array_map(
             function( $random ) {
-                if( is_object($random) and $random instanceof RandomInterface ) {
+                if( is_object($random) and ( $random instanceof RandomInterface || $random instanceof \Closure) ) {
                     return $random();
                 } else {
                     return (string) $random;
