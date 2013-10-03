@@ -138,7 +138,7 @@ abstract class Repository implements BaseInterface
 
         // entities might not have the property entityManager accessible
         try {
-            $this->reflEntityManagerPropertyOfEntity = $this->reflEntityClass->getProperty('entityManager');
+            $this->reflEntityManagerPropertyOfEntity = $this->reflEntityClass->getProperty('entityManagerHash');
             $this->reflEntityManagerPropertyOfEntity->setAccessible(true);
         } catch ( \ReflectionException $e ) {
             $this->reflEntityManagerPropertyOfEntity = null;
@@ -244,7 +244,7 @@ abstract class Repository implements BaseInterface
         $entity = $this->reflEntityClass->newInstanceWithoutConstructor();
         // add the entityManager
         if( $this->reflEntityManagerPropertyOfEntity ) {
-            $this->reflEntityManagerPropertyOfEntity->setValue($entity, $this->entityManager);
+            $this->reflEntityManagerPropertyOfEntity->setValue($entity, spl_object_hash($this->entityManager));
         }
         // call the original constructor
         call_user_func_array( [$entity, '__construct'], func_get_args() );
