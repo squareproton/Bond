@@ -33,12 +33,24 @@ class EntityManager implements \ArrayAccess, \Countable, \Iterator
     private $registrations = [];
     private $names = [];
 
+    // hacky global state to work around the recursive php-ref crazy debug trees
+    private static $instances = [];
+
     public function __construct( Pg $db, $options = [], $eventEmitter )
     {
         $this->db = $db;
         $this->options = $options;
         $this->eventEmitter = $eventEmitter;
         $this->recordManager = new RecordManager($this);
+
+        // hack here
+        self::$instances[spl_object_hash($this)] = $this;
+    }
+
+    // hack function - will be removed
+    public static function getByInstanceHash($hash)
+    {
+        return self::$instances[$hash];
     }
 
     public function find( $entity, $id )
