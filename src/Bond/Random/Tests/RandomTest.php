@@ -33,8 +33,9 @@ class RandomTest extends \PHPUnit_Framework_Testcase
         );
 
         for( $c = 0; $c < 100000; $c++ ) {
-            $counts[$arrayWeighted()]++;
+            $counts[$last = $arrayWeighted()]++;
         }
+        $this->assertSame( $arrayWeighted->last(), $last );
 
         for( $c = 1; $c < count($counts); $c++ ) {
             $this->assertSame(
@@ -53,8 +54,9 @@ class RandomTest extends \PHPUnit_Framework_Testcase
         $total = 0;
         $c = 0;
         while( $c++ < 500000 ) {
-            $total += $nullify();
+            $total += $last = $nullify();
         }
+        $this->assertSame( $nullify->last(), $last );
 
         $this->assertSame(
             round( $total / ($c/100) ),
@@ -67,23 +69,41 @@ class RandomTest extends \PHPUnit_Framework_Testcase
     {
 
         $arraysimple = new Random\ArraySimple( [1,2,3] );
-        $arraysimple();
+        $this->assertSame( $arraysimple(), $arraysimple->last() );
 
         $callback = new Random\Callback(function(){return 1;});
+        $this->assertNull( $callback->last() );
         $this->assertSame( $callback(), 1 );
+        $this->assertSame( $callback(), $callback->last() );
 
         $implode = new Random\Implode( $callback, $callback );
         $this->assertSame( $implode(','), '1,1' );
-
-        $implode = new Random\Implode( $callback, $callback );
-        $this->assertSame( $implode(','), '1,1' );
+        $this->assertSame( $implode(','), $implode->last() );
 
         $range = new Random\Range( 1, 10 );
+        $this->assertSame( $range(), $range->last() );
 
         $string = new Random\String( 'abcdefghijklmnopqrstuvwz', 100, 100 );
+        $this->assertSame( $string(), $string->last() );
 
         $time = new Random\Time( time()-1000, time(), 10 );
-        $time();
+        $this->assertSame( $time(), $time->last() );
+
+    }
+
+    public function testLastValue()
+    {
+        $arrayLoop = new Random\ArrayLoop(range(0,4));
+        $lastValue = new Random\LastValue($arrayLoop);
+
+        $output = [];
+        $answer = [];
+        for( $c = 0; $c < 10; $c++ ) {
+            $arrayLoop();
+            $output[] = $lastValue();
+            $answer[] = $c % 5;
+        }
+        $this->assertSame( $answer, $output );
 
     }
 

@@ -7,6 +7,7 @@ use Bond\Random\RandomInterface;
 class Time implements RandomInterface
 {
     public $random;
+    private $last;
     public function __construct( $min, $max, $n, $direction = SORT_NUMERIC )
     {
         $range = new Range( $min, $max );
@@ -19,6 +20,10 @@ class Time implements RandomInterface
     }
     public function __invoke()
     {
-        return $this->random->__invoke();
+        return $this->last = $this->random->__invoke();
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

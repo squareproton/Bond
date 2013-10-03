@@ -9,6 +9,7 @@ class Range implements RandomInterface
     public $min;
     public $max;
     public $step;
+    private $last;
     public function __construct( $min, $max, $step = 1 )
     {
         $this->min = (int) $min;
@@ -27,6 +28,10 @@ class Range implements RandomInterface
             );
             $output = $this->step * $quotient;
         }
-        return $output;
+        return $this->last = $output;
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }
