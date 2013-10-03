@@ -14,6 +14,7 @@ class Implode implements RandomInterface
     }
     public function __invoke()
     {
+        $separator = func_num_args() ? func_get_arg(0) : '';
         $values = array_map(
             function( $random ) {
                 if( is_object($random) and ( $random instanceof RandomInterface || $random instanceof \Closure) ) {
@@ -24,7 +25,7 @@ class Implode implements RandomInterface
             },
             $this->randoms
         );
-        return $this->last = implode( func_get_arg(0), $values );
+        return $this->last = implode( $separator, $values );
     }
     public function last()
     {
