@@ -25,15 +25,13 @@
         ]
     },
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",
+        "symfony/dependency-injection": "2.3.5",
+        "symfony/proxy-manager-bridge": "2.3.5",
+        "symfony/yaml": "2.3.5",
+        "symfony/config": "2.3.5"
     },
-    "require-dev": {
-        "symfony/dependency-injection": "*",
-        "symfony/proxy-manager-bridge": "*",
-        "symfony/yaml": "*",
-        "symfony/config": "*"
-    },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "config": {
         "process-timeout": 5000
     }
