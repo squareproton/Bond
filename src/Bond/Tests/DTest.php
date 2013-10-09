@@ -10,21 +10,21 @@ class DTest extends \PHPUnit_Framework_Testcase
     public function testSomething()
     {
 
+        d("fuck");
+
         $d = new D(
             '192.168.2.17',
-            'unittest',
+            'unittest/pete',
             [
-                'showMethods' => false,
+                'showMethods' => true,
                 'showPrivateMembers' => true,
                 'expLvl' => 2
             ]
         );
 
-//        $d->clear();
-
         $d( $this );
-
-        $d( [0 => [ 1 => [ 2=> [ 3 => []]]]] ); // first time php-ref has this bug
+        $d->clear();
+        $d( $this );
 
         $d->syntaxHighlight( <<<SQL
             SELECT
@@ -35,7 +35,5 @@ class DTest extends \PHPUnit_Framework_Testcase
                 something = true
 SQL
         );
-
-
     }
 }

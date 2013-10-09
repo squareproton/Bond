@@ -10,12 +10,43 @@
 
 namespace {
 
-    function d()
+    class DDefaults
     {
 
-        $d = new \Bond\D("192.168.2.17", "hello/world", ["showPrivateMembers" => true, "expLvl" => 2]);
-        return call_user_func_array([$d, '__invoke'], func_get_args());
+        public static $host;
+        public static $channel;
+        public static $options = ["showPrivateMembers" => true, "expLvl" => 2];
+
+        public static function setDefaults( $host, $channel, array $options = null )
+        {
+            self::$host = $host;
+            self::$channel = $channel;
+            if( is_array($options) ) {
+                self::$options = $options;
+            }
+            return true;
+        }
+
+        public static function getD()
+        {
+            if( !isset( self::$host, self::$channel ) ) {
+                throw new \Exception("You need to call DDefaults::setDefaults() before you can use getD()");
+            };
+            return new \Bond\D( self::$host, self::$channel, self::$options );
+        }
+
     }
+
+    function d()
+    {
+        return call_user_func_array(
+            [ DDefaults::getD(), "__invoke" ],
+            func_get_args()
+        );
+    }
+
+    // sorry joseph
+    file_exists("/home/captain/dconfig.json") and null !== $decoded = @json_decode( file_get_contents("/home/captain/dconfig.json"), true ) and is_array($decoded) and count($decoded) >= 2 and call_user_func_array( "DDefaults::setDefaults", $decoded );
 
 }
 

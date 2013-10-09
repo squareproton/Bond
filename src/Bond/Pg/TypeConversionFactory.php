@@ -101,7 +101,7 @@ class TypeConversionFactory
             // some different strategies for handling unknown types
             default:
 
-                print_r($type);
+//                print_r($type);
 
                 return new NullSafeCallback( $type, 'strval');
 

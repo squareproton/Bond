@@ -1169,6 +1169,7 @@ PHP
         }
 
         if( in_array( $name, $this->getSetAliases ) ) {
+            // print_r( $this->normalityTags );
             $message = "Collision on entity {$this->pgClass->getEntityName()} for property {$name}. Don't worry about this.\n";
             echo $message;
             # throw new AliasCollisionException();

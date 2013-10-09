@@ -11,11 +11,12 @@ class ServerStatus {
     /**
      * @var string
      */
-    protected $host = "127.0.0.1";
+    private $host = "127.0.0.1";
+
     /**
      * @var int
      */
-    protected $port = 4730;
+    private $port = 4730;
 
     /**
      * @param string $host
@@ -98,6 +99,22 @@ class ServerStatus {
         return $status;
     }
 
+    private function extractWorkersFromStatus( $status )
+    {
+        $workers = [];
+        foreach( $status['connections'] as $worker ) {
+            if( preg_match( '/\\b(worker|node).(\d+).status\\b/', $worker['function'], $matches ) ) {
+                $workers[] = array(
+                    'ip' => $worker['ip'],
+                    'pid' => $matches[2],
+                    'functions' => explode( " ", $worker['function'] ),
+                    'statusJob' => $matches[0],
+                );
+            }
+        }
+        return $workers;
+    }
+
     public function getJobStatusForTablet()
     {
 
@@ -127,22 +144,6 @@ class ServerStatus {
         }
 
         return $ops;
-    }
-
-    private function extractWorkersFromStatus( $status )
-    {
-        $workers = [];
-        foreach( $status['connections'] as $worker ) {
-            if( preg_match( '/\\b(worker|node).(\d+).status\\b/', $worker['function'], $matches ) ) {
-                $workers[] = array(
-                    'ip' => $worker['ip'],
-                    'pid' => $matches[2],
-                    'functions' => explode( " ", $worker['function'] ),
-                    'statusJob' => $matches[0],
-                );
-            }
-        }
-        return $workers;
     }
 
     public function getWorkerStatusForTablet()
