@@ -21,6 +21,58 @@ class DTest extends \PHPUnit_Framework_Testcase
 
         $d = new D(
             '192.168.2.17',
+            'pete/unitest',
+            'pete',
+            [
+                'showMethods' => true,
+                'showPrivateMembers' => true,
+                'expLvl' => 2
+            ]
+        );
+
+        foreach( range(1,200) as $n ) {
+            $d->clear();
+            $d($n);
+            usleep(100000);
+        }
+
+
+//        $d($this);
+
+//        $d->clear();
+
+        $data = array(
+            'handler' => 'unknown',
+            'args' => array(
+                "what",
+                "what",
+            )
+        );
+        $d->makeUberRequest($data);
+        return;
+        // $d($this);
+        // $d->syntaxHighlight("select * from monkey");
+        $d(1);
+
+        return;
+
+        $data = array(
+            'handler' => 'slickGrid',
+            'args' => [ 1 ]
+        );
+
+        $d->makeUberRequest($data);
+
+
+    }
+
+
+/*
+    public function testLangAgnosticRefParser()
+    {
+
+        $d = new D(
+            '192.168.2.17',
             'unittest/pete',
             [
                 'showMethods' => true,
@@ -118,7 +170,6 @@ SQL
         return;
 
         $d( $this );
-        $d("fuck");
 
     }
 
@@ -180,6 +231,7 @@ JSON;
 JSON;
         return json_decode( $output, true );
     }
+    */
 
 
 }

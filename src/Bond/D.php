@@ -22,6 +22,11 @@ class D
     private $channel;
 
     /**
+     * @var string Apikey to use with a debug channel account. Optional.
+     */
+    private $apiKey;
+
+    /**
      * See, ref.php for the complete list of allowed options
      * The ones I think you'll probably want are
      * array(
@@ -42,10 +47,11 @@ class D
      * @param string Channel
      * @param array ref options. See, ref.php for list of allowed options
      */
-    public function __construct( $host, $channel, array $phpRefOptions = array() )
+    public function __construct( $host, $channel, $apiKey = null, array $phpRefOptions = array() )
     {
         $this->host = (string) $host;
         $this->setChannel($channel);
+        $this->apiKey = $apiKey;
         $this->setPhpRefOptions($phpRefOptions);
     }
 
@@ -186,6 +192,11 @@ class D
 
     public function makeUberRequest( $data )
     {
+
+        // add apiKey to request if set
+        if( null !== $this->apiKey ) {
+            $data['apiKey'] = (string) $this->apiKey;
+        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url = $this->getRequestUrl() );
