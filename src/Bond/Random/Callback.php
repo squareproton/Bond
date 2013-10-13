@@ -8,6 +8,7 @@ class Callback implements RandomInterface
 {
     public $callback;
     public $args;
+    private $last;
     function __construct( $callback )
     {
         $args = func_get_args();
@@ -16,9 +17,10 @@ class Callback implements RandomInterface
     }
     function __invoke()
     {
-        return call_user_func_array(
-            $this->callback,
-            $this->args
-        );
+        return $this->last = call_user_func_array( $this->callback, $this->args );
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

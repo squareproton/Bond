@@ -7,6 +7,7 @@ use Bond\Random\RandomInterface;
 class ArrayLoop implements RandomInterface
 {
     private $options;
+    private $last;
     function __construct( array $options )
     {
         if( !$options ) {
@@ -19,9 +20,13 @@ class ArrayLoop implements RandomInterface
     {
         list($key,$value) = each( $this->options );
         if( $key !== null ) {
-            return $value;
+            return $this->last = $value;
         }
         reset( $this->options );
-        return $this();
+        return $this->last = $this();
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

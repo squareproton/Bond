@@ -9,6 +9,7 @@ class ArrayWeighted implements RandomInterface
     public $options;
     public $weights;
     public $total;
+    private $last;
     function __construct( array $options, array $weights )
     {
         $this->options = array_values( $options );
@@ -34,6 +35,10 @@ class ArrayWeighted implements RandomInterface
             list($key, $weight) = each( $this->weights );
             $total += $weight;
         } while ( $total < $n );
-        return $this->options[$key];
+        return $this->last = $this->options[$key];
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

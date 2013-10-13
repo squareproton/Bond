@@ -13,6 +13,7 @@ class NormalDistribution implements RandomInterface
     protected $mean;
     protected $stdDev;
     protected $format;
+    private $last;
     function __construct( $mean, $stdDev, $format = self::INTEGER )
     {
         if( !is_numeric( $mean ) || !is_numeric( $stdDev ) ) {
@@ -22,19 +23,23 @@ class NormalDistribution implements RandomInterface
         $this->stdDev = abs( $stdDev );
         $this->format = $format;
     }
-    function hit( $min = null, $max = null )
+    function __invoke( $min = null, $max = null )
     {
         $output = $this->mean + $this->stdDev*((sqrt(-2 * log($this->random())) * cos(2 * self::PI * $this->random())) * 0.5);
         if( is_numeric( $min ) and $output < $min ) {
-            return $this->hit( $min, $max );
+            return $this->last = $this->__invoke( $min, $max );
         }
         if( is_numeric( $max ) and $output > $max ) {
-            return $this->hit( $min, $max );
+            return $this->last = $this->__invoke( $min, $max );
         }
         if( $this->format === self::INTEGER ) {
             $output = (int) round( $output, 1 );
         }
-        return $output;
+        return $this->last = $output;
+    }
+    public function last()
+    {
+        return $this->last;
     }
     private function random()
     {

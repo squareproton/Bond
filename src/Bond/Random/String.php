@@ -10,6 +10,7 @@ class String implements RandomInterface
     public $length;
     public $min;
     public $max;
+    private $last;
     function __construct( $chars, $min, $max = null )
     {
         $this->chars = (string) $chars;
@@ -28,6 +29,10 @@ class String implements RandomInterface
         while( $length-- > 0 ) {
             $output .= $this->chars[rand(0,$this->length-1)];
         }
-        return $output;
+        return $this->last = $output;
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

@@ -8,6 +8,7 @@ class Nullify implements RandomInterface
 {
     public $random;
     public $chance;
+    private $last;
     public function __construct( RandomInterface $random, $chance = 0.5 )
     {
         $this->random = $random;
@@ -16,8 +17,12 @@ class Nullify implements RandomInterface
     function __invoke()
     {
         if( (rand()/getrandmax()) <= $this->chance ) {
-            return null;
+            return $this->last = null;
         }
-        return $this->random->__invoke();
+        return $this->last = $this->random->__invoke();
+    }
+    public function last()
+    {
+        return $this->last;
     }
 }

@@ -140,7 +140,8 @@ abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \C
     /**
      * EntityManager
      */
-    protected $entityManager;
+    // protected $entityManager;
+    protected $entityManagerHash;
 
     /**
      * Instantiate a new Entity
@@ -546,6 +547,9 @@ abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \C
 
         switch( $key ) {
 
+            case 'entityManager':
+                return \Bond\EntityManager::getByInstanceHash($this->entityManagerHash);
+
             case 'data':
 
                 $this->load();
@@ -911,10 +915,13 @@ abstract class Base implements ChainSavingInterface, \Iterator, \ArrayAccess, \C
      */
     public function r()
     {
-        if( !$this->entityManager ) {
+        if( !$this->entityManagerHash ) {
             throw new EntityMissingEntityManagerException($this);
         }
-        return $this->entityManager->getRepository($this);
+        if( !$em = $this->entityManager ) {
+            throw new \Exception("Fuck");
+        }
+        return $em->getRepository($this);
     }
 
     /**
