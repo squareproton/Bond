@@ -906,11 +906,17 @@ SQL
         $a2r = $this->entityManager->getRepository('A2');
 
         $db = $this->entityManager->db;
-        $numQuerys = $db->numQuerys;
+
+        $numQuerys = 0;
+        $db->debug->on( \Bond\Debug::INFO, function ($event, $what) use ( &$numQuerys ) {
+            if( \Bond\Pg::QUERY_PARSED === $what ) {
+                $numQuerys++;
+            }
+        });
 
         # Verify the unit tests are using the same db connection as the repos.
         $a2r->findAll();
-        $this->assertSame( ++$numQuerys, $db->numQuerys );
+        $this->assertSame( $numQuerys, 1 );
 
         $factory = new FindFilterComponentFactory( [PropertyMapperEntityData::class] );
 
@@ -925,7 +931,7 @@ SQL
             ],
             Repository::ALL
         );
-        $this->assertSame( $numQuerys, $db->numQuerys );
+        $this->assertSame( $numQuerys, 1 );
 
         return;
 
