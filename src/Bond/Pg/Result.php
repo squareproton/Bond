@@ -355,7 +355,7 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
         for( $i = 0; $i < $numFields; $i++ ) {
             $postgresType = pg_field_type( $this->resource, $i );
             if( true ) {
-                $converter = $this->getBackwardsCompatibleConverter( $postgresType );
+                $converter = $this->getBackwardsCompatibleConverter( $postgresType, $i );
             } else {
                 $converter = TypeConversionFactory::get( $postgresType, $this );
             }
@@ -370,11 +370,12 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
      * @param string Postgres type
      * @return \Closure
      */
-    private function getBackwardsCompatibleConverter( $type )
+    private function getBackwardsCompatibleConverter( $type, $column )
     {
         try {
             $converter = $this->db->converterFactory->getConverter($type);
         } catch ( NoConverterFound $e ) {
+            echo "Column {$column}\n";
             print_r( $this->query );
             throw $e;
         }

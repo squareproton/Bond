@@ -37,7 +37,7 @@ class TypeConverterFactory
         $this->db = $db;
 
         $this->register( new Converter\PgBoolean(), array('bool'));
-        $this->register( new Converter\PgNumber(), array('int2', 'int4', 'int8', 'numeric', 'float4', 'float8', 'oid', 'oidvector'));
+        $this->register( new Converter\PgNumber(), array('int2', 'int4', 'int8', 'numeric', 'float4', 'float8', 'oidvector'));
         $this->register( new Converter\PgString(), array('varchar', 'char', 'text', 'citext', 'uuid', 'tsvector', 'xml', 'bpchar', 'json', 'name', 'int2vector', 'pg_node_tree'));
         $this->register( new Converter\PgBitString(), array('bit', 'varbit') );
         $this->register( new Converter\PgBytea(), array('bytea') );

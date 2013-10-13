@@ -27,7 +27,7 @@ SELECT
     END as length,
     t.typtype AS type,
     t.typcategory AS category,
-    t.typarray AS "arrayType",
+    t.typarray::int AS "arrayType",
     t.typdefault AS default,
     t.typdefaultbin AS "defaultBin",
     CASE

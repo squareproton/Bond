@@ -24,7 +24,7 @@ SELECT
     c.reltype::int AS "relTypeOid",
     obj_description( c.oid ) AS comment,
     c.relkind as relkind,
-    i.inhparent as parent
+    i.inhparent::int as parent
 FROM
     pg_class c
 LEFT JOIN
