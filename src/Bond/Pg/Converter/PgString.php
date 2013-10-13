@@ -6,6 +6,6 @@ class PgString implements ConverterInterface
 {
     public function fromPg($data, $type = null)
     {
-        return null === $data ? str_replace('\\"', '"', $data);
+        return null === $data ? null : str_replace('\\"', '"', $data);
     }
 }

@@ -19,6 +19,7 @@ use Bond\Pg\Exception\MissingParameterStateException;
 use Bond\Pg\QueryExceptionFactory;
 use Bond\Pg\Resource;
 use Bond\Pg\Result;
+use Bond\Pg\TypeConverterFactory;
 
 use Bond\Sql\SqlInterface;
 use Bond\Sql\Raw;
@@ -88,7 +89,7 @@ class Pg implements DatabaseInterface, \Serializable
     {
         $this->resource = $resource;
         $this->name = (string) $name;
-        $this->converterFactory = new ConverterFactory();
+        $this->converterFactory = new TypeConverterFactory($this);
         $this->debug = Debug::get(__CLASS__);
     }
 

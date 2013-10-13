@@ -10,6 +10,7 @@
 namespace Bond\Pg;
 
 use Bond\Exception\BadTypeException;
+use Bond\Pg\Exception\NoConverterFound;
 
 use Bond\Database\ResultInterface;
 use Bond\Database\DatabaseInterface;
@@ -204,7 +205,7 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
         // off by default as the performance hit has yet to be determined
         if( $fetchOptions & self::TYPE_DETECT ) {
 
-            $typeCallbacks = $this->getFieldTypeCallbacks();
+            $typeCallbacks = $this->getFieldTypesCallbacks();
             if( $this->fetchType === PGSQL_ASSOC ) {
                 $keys = array_keys( $typeCallbacks );
             } else {
@@ -347,19 +348,39 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
      * Return a array of php callbacks to be applied to a result set
      * @param array $types
      */
-    public function getFieldTypeCallbacks()
+    private function getFieldTypesCallbacks()
     {
         $types = array();
-
         $numFields = $this->numFields();
         for( $i = 0; $i < $numFields; $i++ ) {
-            $types[pg_field_name( $this->resource, $i )] = TypeConversionFactory::get(
-                pg_field_type( $this->resource, $i ),
-                $this
-            );
+            $postgresType = pg_field_type( $this->resource, $i );
+            if( true ) {
+                $converter = $this->getBackwardsCompatibleConverter( $postgresType );
+            } else {
+                $converter = TypeConversionFactory::get( $postgresType, $this );
+            }
+            $types[pg_field_name( $this->resource, $i )] = $converter;
         }
-
         return $types;
+    }
+
+    /**
+     * Return a callback - backwards compatible with TypeConversionFactory - which
+     * uses TypeConverterFactory
+     * @param string Postgres type
+     * @return \Closure
+     */
+    private function getBackwardsCompatibleConverter( $type )
+    {
+        try {
+            $converter = $this->db->converterFactory->getConverter($type);
+        } catch ( NoConverterFound $e ) {
+            print_r( $this->query );
+            throw $e;
+        }
+        return function ($row) use ($converter) {
+            return $converter->fromPg($row);
+        };
     }
 
     /**

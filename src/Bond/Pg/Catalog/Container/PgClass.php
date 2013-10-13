@@ -18,10 +18,10 @@ class PgClass extends Container
 
     protected $setupSql =  <<<SQL
 SELECT
-    c.oid AS oid,
+    c.oid::int AS oid,
     c.relname AS name,
     n.nspname AS schema,
-    c.reltype AS "relTypeOid",
+    c.reltype::int AS "relTypeOid",
     obj_description( c.oid ) AS comment,
     c.relkind as relkind,
     i.inhparent as parent

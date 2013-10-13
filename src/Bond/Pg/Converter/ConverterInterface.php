@@ -1,8 +1,8 @@
 <?php
 
-namespace Bond\Pg\ConverterInterface;
+namespace Bond\Pg\Converter;
 
 interface ConverterInterface
 {
-    public function fromPg($data, $type = null);
+    public function fromPg($data);
 }

@@ -18,7 +18,7 @@ class PgType extends Container
 
     protected $setupSql =  <<<SQL
 SELECT
-    t.oid AS oid,
+    t.oid::int AS oid,
     t.typname AS name,
     n.nspname as "schema",
     case
