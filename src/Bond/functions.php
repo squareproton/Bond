@@ -34,7 +34,7 @@ namespace {
             if( !isset( self::$host, self::$channel ) ) {
                 throw new \Exception("You need to call DDefaults::setDefaults() before you can use getD()");
             };
-            return new \Bond\D( self::$host, self::$channel, self::$apiKey, self::$options );
+            return new \DebugChannel\clients\php\D( self::$host, self::$channel, self::$apiKey, self::$options );
         }
 
     }
