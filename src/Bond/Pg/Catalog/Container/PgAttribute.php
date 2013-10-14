@@ -19,9 +19,9 @@ class PgAttribute extends Container
     protected $setupSql =  <<<SQL
 SELECT
     a.attrelid::text || '.' || a.attnum::text AS key,
-    a.attrelid AS attrelid,
+    a.attrelid::int AS attrelid,
     a.attname as name,
-    a.atttypid as "typeOid",
+    a.atttypid::int as "typeOid",
     a.attndims <> 0 as "isArray",
     a.attnotnull as "notNull",
     a.attnum as "attnum",

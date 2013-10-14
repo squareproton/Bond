@@ -32,7 +32,7 @@ class PgClassTest extends PgProvider
         $db = $this->connectionFactory->get('RW');
         $catalog = new Catalog($db);
 
-        $a1_oid = $db->query( new Query("SELECT 'a1'::regclass::oid") )->fetch( Result::FETCH_SINGLE | Result::TYPE_DETECT );
+        $a1_oid = $db->query( new Query("SELECT 'a1'::regclass::oid::int") )->fetch( Result::FETCH_SINGLE | Result::TYPE_DETECT );
         $this->assertSame( $a1_oid, $catalog->pgClasses->findOneByName('a1')->oid );
         $this->assertSame( 'a1', $catalog->pgClasses->findOneByOid($a1_oid)->name );
 
@@ -44,7 +44,7 @@ class PgClassTest extends PgProvider
         $db = $this->connectionFactory->get('RW');
         $catalog = new Catalog($db);
 
-        $a1_oid = $db->query( new Query("SELECT 'a1'::regclass::oid") )->fetch( Result::FETCH_SINGLE | Result::TYPE_DETECT );
+        $a1_oid = $db->query( new Query("SELECT 'a1'::regclass::oid::int") )->fetch( Result::FETCH_SINGLE | Result::TYPE_DETECT );
 
         $a1_byoid = $catalog->pgClasses->findByOid( $a1_oid );
         $a1_byname = $catalog->pgClasses->findByName( 'unit.a1' );

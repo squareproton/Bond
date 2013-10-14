@@ -115,12 +115,18 @@ class PersistTest extends \Bond\Normality\Tests\NormalityProvider
         $a1Task = new Persist($this->entityManager->recordManager);
         $a1Task->setObject( $container );
 
-        $numQuerys = $this->db->numQuerys;
+
+        $numQuerys = 0;
+        $this->db->debug->on( \Bond\Debug::INFO, function ($event, $what) use ( &$numQuerys ) {
+            if( \Bond\Pg::QUERY_PARSED === $what ) {
+                $numQuerys++;
+            }
+        });
 
         $this->assertTrue( $a1Task->execute( $this->db ) );
 
         // I'm not sure we can continue with this tests below because chainsaving, additional tasks, ...
-        // effect this in ways that, while determinsitic, probably shouldn't be tested in this manner
+        // effect this in ways that, while determinsitic, probably can't be tested in this manner
         return;
 
         $this->assertSame( $numQuerys + 2, $this->db->numQuerys );

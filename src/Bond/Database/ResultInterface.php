@@ -21,7 +21,6 @@ interface ResultInterface
     public function getFetchOptions();
 
     public function fetch( $options, $keyResultsByColumn );
-    public function getFieldTypeCallbacks();
 
     public function count();
     public function numRows();

@@ -51,6 +51,9 @@ class D
     {
         $this->host = (string) $host;
         $this->setChannel($channel);
+        if( null !== $apiKey and !is_string($apiKey) ) {
+            throw new \InvalidArgumentException("apiKey must be a string.");
+        }
         $this->apiKey = $apiKey;
         $this->setPhpRefOptions($phpRefOptions);
     }

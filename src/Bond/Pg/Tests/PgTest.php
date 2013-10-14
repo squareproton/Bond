@@ -120,21 +120,6 @@ class PgTest extends PgProvider
 
     }
 
-    public function testNumQuerys()
-    {
-
-        $db = $this->connectionFactory->get('RW');
-
-        $num_query = $db->numQuerys;
-
-        $db->query( new Query( 'SELECT 1;' ) );
-        $this->assertSame( $db->numQuerys, $num_query + 1 );
-
-        $db->query( new Query( 'SELECT 2;' ) );
-        $this->assertSame( $db->numQuerys, $num_query + 2 );
-
-    }
-
     public function testQuoteIdent()
     {
 

@@ -15,12 +15,14 @@ namespace {
 
         public static $host;
         public static $channel;
+        public static $apiKey;
         public static $options = ["showPrivateMembers" => true, "expLvl" => 2];
 
-        public static function setDefaults( $host, $channel, array $options = null )
+        public static function setDefaults( $host, $channel, $apiKey = null, array $options = null )
         {
             self::$host = $host;
             self::$channel = $channel;
+            self::$apiKey = $apiKey;
             if( is_array($options) ) {
                 self::$options = $options;
             }
@@ -32,15 +34,21 @@ namespace {
             if( !isset( self::$host, self::$channel ) ) {
                 throw new \Exception("You need to call DDefaults::setDefaults() before you can use getD()");
             };
-            return new \Bond\D( self::$host, self::$channel, self::$options );
+            return new \Bond\D( self::$host, self::$channel, self::$apiKey, self::$options );
         }
 
     }
 
     function d()
     {
+        $d = DDefaults::getD();
+        // nothing to log - just return instance of D
+        if( func_num_args() === 0 ) {
+            return $d;
+        }
+        // woot - something to do
         return call_user_func_array(
-            [ DDefaults::getD(), "__invoke" ],
+            [ $d, "__invoke" ],
             func_get_args()
         );
     }

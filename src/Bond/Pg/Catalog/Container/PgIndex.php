@@ -25,7 +25,20 @@ SELECT
         ' '
     ) AS columns,
     false "inherited",
-    i.*,
+    i.indexrelid::int,
+    i.indrelid::int,
+    i.indnatts,
+    i.indisunique,
+    i.indisprimary,
+    i.indisclustered,
+    i.indisvalid,
+    i.indcheckxmin,
+    i.indisready,
+    i.indkey,
+    i.indclass,
+    i.indoption,
+    i.indexprs,
+    i.indpred,
     string_to_array( indkey::text, ' ' )::int[] as indkey
 FROM
     pg_index i

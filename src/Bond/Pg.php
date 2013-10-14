@@ -19,6 +19,7 @@ use Bond\Pg\Exception\MissingParameterStateException;
 use Bond\Pg\QueryExceptionFactory;
 use Bond\Pg\Resource;
 use Bond\Pg\Result;
+use Bond\Pg\TypeConverterFactory;
 
 use Bond\Sql\SqlInterface;
 use Bond\Sql\Raw;
@@ -63,10 +64,10 @@ class Pg implements DatabaseInterface, \Serializable
     private $name;
 
     /**
-     * The number of queries that have been executed against this connection
-     * Really useful for unit testing
+     * TypeConverterFactory
+     * @var Bond\Pg\ConverterFactory
      */
-    private $numQuerys = 0;
+    private $converterFactory;
 
     /**
      * Debugging object
@@ -77,7 +78,7 @@ class Pg implements DatabaseInterface, \Serializable
      * Parameter store
      * Array of parameter values to store against a named restore point
      */
-    public $parameterStore = array();
+    private $parameterStore = array();
 
     /**
      * Manage a database connection
@@ -88,6 +89,7 @@ class Pg implements DatabaseInterface, \Serializable
     {
         $this->resource = $resource;
         $this->name = (string) $name;
+        $this->converterFactory = new TypeConverterFactory($this);
         $this->debug = Debug::get(__CLASS__);
     }
 
@@ -112,8 +114,6 @@ class Pg implements DatabaseInterface, \Serializable
     {
 
         $options += $options & ( self::RECONNECT_AS_REQUIRED | self::RECONNECT_NO ) ? 0 : self::RECONNECT_DEFAULT;
-
-        $this->numQuerys++;
 
         $timings = array();
         $timings['start'] = microtime( true );
