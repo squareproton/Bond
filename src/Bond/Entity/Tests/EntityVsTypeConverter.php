@@ -23,9 +23,9 @@ class DateRangeVsEntitiesTest extends \Bond\Normality\Tests\NormalityProvider
         $query = new Raw( "SELECT ROW( null, 100-gi, ARRAY[gi]::text[], ARRAY[1,2]::INT[], gi, '--', gi % 2 = 0, now() )::typ FROM generate_series(1,$n) g(gi);" );
         $result = $this->db->query($query)->fetch(Result::TYPE_DETECT);
 
-        $this->assertSame( 2*$n, $this->Typ->findAll()->count() );
+        $this->assertSame( $n, $this->Typ->findAll()->count() );
         $this->assertSame( $n, $this->Typ->findPersisted()->count() );
-        $this->assertSame( $n, $this->Typ->findUnpersisted()->count() );
+        $this->assertSame( 0, $this->Typ->findUnpersisted()->count() );
 
     }
 
