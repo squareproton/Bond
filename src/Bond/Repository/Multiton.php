@@ -372,6 +372,10 @@ abstract class Multiton extends Repository
             $data
         );
 
+        if( !$key ) {
+            return parent::initByData($data);
+        }
+
         // is this already in the cache? Are we initalising something we've already loaded?
         if( isset( $this->instancesPersisted[$key] ) ) {
 

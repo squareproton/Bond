@@ -52,7 +52,7 @@ class PgType implements SqlInterface
 
     /**
      * Is this type a enum
-     * @return bool
+     * @return boolean
      */
     public function isEnum()
     {
@@ -66,6 +66,19 @@ class PgType implements SqlInterface
     public function isBool()
     {
         return $this->category === 'B';
+    }
+
+    /**
+     * Is this type a array type
+     * @param baseType
+     * @return bool
+     */
+    public function isArray( &$baseType = false )
+    {
+        if( $this->category === 'A' and $this->arrayType !== null ) {
+            $baseType = $this->catalog->pgTypes->findOneByOid( $this->arrayBaseType );
+        }
+        return $this->category === 'A';
     }
 
     /**

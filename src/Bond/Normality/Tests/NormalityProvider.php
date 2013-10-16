@@ -23,10 +23,15 @@ use Bond\Sql\Query;
 class NormalityProvider extends \Bond\Tests\EntityManagerProvider
 {
 
+    /**
+     * Bool to check to see if some other class hasn't already run the normality code
+     * @var bool
+     */
     private static $normalityProvided = false;
 
     /**
      * A reference to the Bond\Pg that is contained in the EntityManager
+     * @var \Bond\Pg
      */
     public $db;
 
@@ -57,6 +62,7 @@ class NormalityProvider extends \Bond\Tests\EntityManagerProvider
                 'entityPlaceholder' => '/Bond/Normality/UnitTest/Entity',
                 'repository' => '/Bond/Normality/UnitTest/Repository/Normality',
                 'repositoryPlaceholder' => '/Bond/Normality/UnitTest/Repository',
+                'pgRecordConverter' => '/Bond/Normality/UnitTest/PgRecordConverter',
                 'register' => '/Bond/Normality/UnitTest/Register',
                 'log' => '/Bond/Normality/UnitTest/Logs',
                 'backup' => '/Bond/Normality/UnitTest/Backups',
@@ -112,6 +118,9 @@ SQL
 
     }
 
+    /**
+     * Utility function. Get the number of rows in a table
+     */
     public function getNumRowsInTable($table)
     {
         $query = new Query("SELECT count(*) FROM %table:identifier%");

@@ -287,7 +287,7 @@ abstract class Repository implements BaseInterface
             case self::MAKEABLE_DISABLE:
                 return false;
             case self::MAKEABLE_EXCEPTION:
-                throw new EntityNotMakeableException("Making objects of this type is restricted. Are you using a view or some other derived data.");
+                throw new EntityNotMakeableException("Making entity of type `{$this->entityClass}` is restricted. Are you using a view or some other derived data.");
         }
         return true;
     }
@@ -1200,7 +1200,7 @@ abstract class Repository implements BaseInterface
      * @param string Class
      * @return Bond\Container
      */
-    protected function makeNewContainer()
+    public function makeNewContainer()
     {
         $container = new Container();
         $container->classSet($this->entityClass);

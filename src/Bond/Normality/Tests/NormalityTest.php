@@ -30,6 +30,7 @@ class NormalityTest extends \Bond\Tests\EntityManagerProvider
                 'entityPlaceholder' => '/Bond/Normality/UnitTest/Entity',
                 'repository' => '/Bond/Normality/UnitTest/Repository/Normality',
                 'repositoryPlaceholder' => '/Bond/Normality/UnitTest/Repository',
+                'pgRecordConverter' => '/Bond/Normality/UnitTest/PgRecordConverter',
                 'register' => '/Bond/Normality/UnitTest/Entity/Register',
                 'log' => '/Bond/Normality/UnitTest/Logs',
                 'backup' => '/Bond/Normality/UnitTest/Backups',
@@ -41,7 +42,7 @@ class NormalityTest extends \Bond\Tests\EntityManagerProvider
 
         $options->matches[] = new Closure(
             function($relation){
-//                return $relation->name === 'a1_child';
+                return $relation->name === 'typ';
                 return in_array( $relation->schema, [ 'unit', 'logs', 'common' ] );
             }
         );

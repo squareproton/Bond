@@ -4,5 +4,5 @@ namespace Bond\Pg\Converter;
 
 interface ConverterInterface
 {
-    public function fromPg($data);
+    public function __invoke($data);
 }

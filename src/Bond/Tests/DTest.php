@@ -31,7 +31,6 @@ class DTest extends \PHPUnit_Framework_Testcase
         );
 
         foreach( range(1,200) as $n ) {
-            $d->clear();
             $d($n);
             usleep(100000);
         }

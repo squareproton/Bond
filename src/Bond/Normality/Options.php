@@ -63,6 +63,7 @@ class Options
         'entityPlaceholder' => null,
         'repository' => null,
         'repositoryPlaceholder' => null,
+        'pgRecordConverter' => null,
         'log' => null,
         'register' => null,
         'backup' => null,

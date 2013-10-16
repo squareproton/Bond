@@ -34,19 +34,17 @@ class EntityManager implements BuilderInterface
     /**
      * Standard constructor
      */
-    public function __construct( $fullyQualifiedClass, array $registrations = [] )
+    public function __construct( $fullyQualifiedClass, array $registrations = [], array $pgRecordConverters )
     {
 
         $this->class = new PhpClass(
             \Bond\get_unqualified_class($fullyQualifiedClass),
-            \Bond\get_namespace($fullyQualifiedClass),
-            false
+            \Bond\get_namespace($fullyQualifiedClass)
         );
 
-        if( !$registrations ) {
-            return;
-        }
+        $this->class->addUses( 'Bond\Pg\Converter\Entity' );
 
+        // registrations
         foreach( $registrations as &$registration ) {
             $registration = sprintf(
                 "\$em->register( '%s', '%s' );",
@@ -56,19 +54,36 @@ class EntityManager implements BuilderInterface
         }
         $registrations = new Format($registrations);
 
+        // type converstions
+        $converters = [];
+        $converterFactoryPhpVar = "\$cf";
+        foreach( $pgRecordConverters as $converter ) {
+            // $converters[] = $converter->getRecordRegistrationLine($converterFactoryPhpVar, '$em' );
+            $converters[] = $converter->getEntityRegistrationLine($converterFactoryPhpVar, '$em' );
+        }
+        $converters = new Format($converters);
+
+
         $this->class->classComponents[] = new FunctionDeclaration(
             '__construct',
             new Sformatf( <<<'PHP'
                 /**
                  * Register a set of entities with a EntityManager
+                 * Register database type conversion code with a EntityManager
                  * @inheritDoc
                  */
                 public function __construct( \Bond\EntityManager $em )
                 {
 %s
+
+                    %s = $em->db->converterFactory;
+%s
+
                 }
 PHP
                 , $registrations->indent(20)
+                , $converterFactoryPhpVar
+                , $converters->indent(20)
             )
         );
 
