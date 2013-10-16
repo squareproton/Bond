@@ -16,6 +16,7 @@ use Bond\Sql\Query;
 class ResultTest extends PgProvider
 {
 
+/*
     public function testPgResultAccessors()
     {
 
@@ -200,6 +201,8 @@ class ResultTest extends PgProvider
 
     }
 
+    */
+
     public function testFetchWithResultTypeDetect()
     {
 
@@ -212,7 +215,7 @@ class ResultTest extends PgProvider
                     1::int4 as int4,
                     '2'::text AS text,
                     array[1,2,3]::text[] AS "textArray",
-                    array[1,2,3] AS array, /*
+                    array[1,2,3]::int[] AS array, /*
                     '1'::json as json_int,
                     '"1"'::json as json_string,
                     'null'::json as json_null,

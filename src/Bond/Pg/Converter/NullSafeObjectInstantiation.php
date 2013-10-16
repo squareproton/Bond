@@ -18,7 +18,7 @@ class NullSafeObjectInstantiation implements ConverterInterface
         $this->constructorArgs = $constructorArgs;
     }
 
-    public function fromPg($input)
+    public function __invoke($input)
     {
         if( null === $input ) {
             return null;

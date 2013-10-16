@@ -28,12 +28,23 @@ use Bond\Entity\Types\Oid;
 class TypeConverterFactory
 {
 
+    /**
+     * @var array of convertable type and their converter
+     */
     private $converters = [];
 
+    /**
+     * @var \Bond\Pg database connection
+     */
     private $db;
 
+    /**
+     * Instantiate and register base types
+     * @param Bond\Pg
+     */
     public function __construct( Pg $db )
     {
+
         $this->db = $db;
 
         $this->register( new Converter\PgBoolean(), array('bool'));
@@ -41,6 +52,7 @@ class TypeConverterFactory
         $this->register( new Converter\PgString(), array('varchar', 'char', 'text', 'citext', 'uuid', 'tsvector', 'xml', 'bpchar', 'json', 'name', 'int2vector', 'pg_node_tree'));
         $this->register( new Converter\PgBitString(), array('bit', 'varbit') );
         $this->register( new Converter\PgBytea(), array('bytea') );
+        $this->register( new Converter\PgRecord(), array('record') );
 
         // this will need to be changed somewhat
         $this->register( new Converter\NullSafeObjectInstantiation( new \ReflectionClass(DateTime::class) ), ['timestamp'] );
@@ -60,6 +72,11 @@ class TypeConverterFactory
 
     }
 
+    /**
+     * Register a converter and the types is can convert
+     * @param \Bond\Pg\Converter\ConverterInterface
+     * @param array[string] Types the converter can handle
+     */
     public function register( ConverterInterface $converter, array $types )
     {
         foreach( $types as $type ) {
@@ -67,6 +84,11 @@ class TypeConverterFactory
         }
     }
 
+    /**
+     * Get a converter for a particular postgres type
+     * @param string postgres type we are looking for a converter for
+     * @return \Bond\Pg\Converter\ConverterInterface
+     */
     public function getConverter( $type )
     {
         // vanilla type
@@ -75,9 +97,10 @@ class TypeConverterFactory
 
         // array type
         } elseif( 0 === strpos( $type, '_' ) ) {
-            $type = substr($type, 1);
-            $baseConverter = $this->getConverter($type);
-            return new Converter\PgArray($baseConverter);
+            $baseConverter = $this->getConverter(substr($type, 1));
+            $converter = new Converter\PgArray($baseConverter);
+            $this->register( $converter, [$type] );
+            return $converter;
         }
         throw new Exception\NoConverterFound($type);
     }

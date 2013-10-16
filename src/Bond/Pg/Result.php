@@ -10,13 +10,15 @@
 namespace Bond\Pg;
 
 use Bond\Exception\BadTypeException;
+
+use Bond\Pg\Converter\FlattenInterface;
 use Bond\Pg\Exception\NoConverterFound;
 
-use Bond\Database\ResultInterface;
 use Bond\Database\DatabaseInterface;
 use Bond\Database\Exception\MoreThanOneRowReturnedException;
 use Bond\Database\Exception\ResourcesAreReadonlyException;
 use Bond\Database\Exception\UnknownPropertyException;
+use Bond\Database\ResultInterface;
 
 use Bond\Sql\SqlInterface;
 
@@ -126,6 +128,11 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
     private $cacheFetch = array();
 
     /**
+     * Single column callback
+     */
+    private $flattenCallback;
+
+    /**
      * Handle the output of a pg_query
      * @param resource pg_result resource
      * @param Bond\Pg\DatabaseInterface
@@ -203,6 +210,7 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
         // types and keys
         // determine types - this could be enabled to automatically convert types (to something other than a string)
         // off by default as the performance hit has yet to be determined
+        $this->flattenCallback = null;
         if( $fetchOptions & self::TYPE_DETECT ) {
 
             $typeCallbacks = $this->getFieldTypesCallbacks();
@@ -219,6 +227,11 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
                 $this->fetchCallback = function( $row ) use ( $keys, $typeCallback ) {
                     return call_user_func( $typeCallback, $row[0] );
                 };
+
+                // single column interface
+                if( $typeCallback instanceof FlattenInterface ) {
+                    $this->flattenCallback = [$typeCallback, 'flatten'];
+                }
 
             } else {
 
@@ -335,6 +348,12 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
 
         }
 
+        // do we have any post processing flattening callback to execute
+        // Eg, entities going into container
+        if( $this->flattenCallback ) {
+            $output = call_user_func($this->flattenCallback, $output);
+        }
+
         // cache population
         if( isset($cacheKey) ) {
             $this->cacheFetch[$cacheKey] = $output;
@@ -355,33 +374,19 @@ class Result implements ResultInterface, \Iterator, \ArrayAccess, \Countable
         for( $i = 0; $i < $numFields; $i++ ) {
             $postgresType = pg_field_type( $this->resource, $i );
             if( true ) {
-                $converter = $this->getBackwardsCompatibleConverter( $postgresType, $i );
+                try {
+                    $converter = $this->db->converterFactory->getConverter($postgresType);
+                } catch ( NoConverterFound $e ) {
+                    // echo "Column {$column}\n";
+                    // print_r( $this->query );
+                    throw $e;
+                }
             } else {
                 $converter = TypeConversionFactory::get( $postgresType, $this );
             }
             $types[pg_field_name( $this->resource, $i )] = $converter;
         }
         return $types;
-    }
-
-    /**
-     * Return a callback - backwards compatible with TypeConversionFactory - which
-     * uses TypeConverterFactory
-     * @param string Postgres type
-     * @return \Closure
-     */
-    private function getBackwardsCompatibleConverter( $type, $column )
-    {
-        try {
-            $converter = $this->db->converterFactory->getConverter($type);
-        } catch ( NoConverterFound $e ) {
-            echo "Column {$column}\n";
-            print_r( $this->query );
-            throw $e;
-        }
-        return function ($row) use ($converter) {
-            return $converter->fromPg($row);
-        };
     }
 
     /**

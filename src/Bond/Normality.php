@@ -11,10 +11,12 @@ namespace Bond;
 
 use Bond\Normality\Builder\Entity;
 use Bond\Normality\Builder\EntityChild;
+use Bond\Normality\Builder\EntityManager as EntityManagerBuilder;
+use Bond\Normality\Builder\EntityManagerPgTypeConversion;
 use Bond\Normality\Builder\EntityPlaceholder;
+use Bond\Normality\Builder\PgRecordConverter;
 use Bond\Normality\Builder\Repository as RepositoryG;
 use Bond\Normality\Builder\RepositoryPlaceholder;
-use Bond\Normality\Builder\EntityManager as EntityManagerBuilder;
 
 use Bond\Container;
 
@@ -108,14 +110,17 @@ class Normality
         // build relation
         $this->profiler->log('generation begin');
         $built = [];
+        $pgRecordConverters = [];
         foreach( $processing as $relation ) {
-            $entity = $this->buildRelation( $relation );
+            $output = $this->buildRelation( $relation );
+            $entity = $output[0];
+            $pgRecordConverters[] = $output[1];
             $this->profiler->log($entity);
             $built[] = $entity;
         }
         $this->profiler->log('generation end');
 
-        $this->buildEntityRegistration( $built );
+        $this->buildEntityRegistration( $built, $pgRecordConverters );
 
         // remove orphan entities
         $options = $this->options->prepareOptions;
@@ -164,7 +169,7 @@ class Normality
      * Optionally backup/trash any existing entities
      * @return null
      */
-    public function prepare()
+    private function prepare()
     {
 
         $options = $this->options->prepareOptions;
@@ -225,6 +230,8 @@ class Normality
             $type = 'repository';
         } elseif ( $generator instanceof RepositoryPlaceholder ) {
             $type = 'repositoryPlaceholder';
+        } elseif ( $generator instanceof PgRecordConverter ) {
+            $type = 'pgRecordConverter';
         } else {
             throw new \Exception("Nope");
         }
@@ -251,7 +258,7 @@ class Normality
 
     }
 
-    public function buildRelation( PgClass $relation )
+    private function buildRelation( PgClass $relation )
     {
 
         $name = $relation->getEntityName();
@@ -273,10 +280,14 @@ class Normality
         $repositoryG = new RepositoryG( $entityG, $this->options->getNamespace('repository') );
         $repositoryPlaceholderG = new RepositoryPlaceholder( $repositoryG, $this->options->getNamespace('repositoryPlaceholder') );
 
+        $pgRecordConverter = new PgRecordConverter( $entityG, $this->options->getNamespace('pgRecordConverter') );
+
         $this->generate( $entityG, true );
         $this->generate( $entityPlaceholderG, $this->options->regenerateEntityPlaceholders );
         $this->generate( $repositoryG, true );
         $this->generate( $repositoryPlaceholderG, $this->options->regenerateRepositoryPlaceholders );
+
+        $this->generate( $pgRecordConverter, true );
 
         // register freshly generated entity with Repository
         $namespaces = $this->options->namespaces;
@@ -289,11 +300,11 @@ class Normality
 
         $this->callbacks['log']('');
 
-        return $name;
+        return [ $name, $pgRecordConverter ];
 
     }
 
-    public function buildEntityRegistration( $entities )
+    private function buildEntityRegistration( array $entities, array $pgRecordConverters )
     {
 
         $registrations = [];
@@ -308,7 +319,8 @@ class Normality
 
         $emEntityRegistration = new EntityManagerBuilder(
             $class,
-            $registrations
+            $registrations,
+            $pgRecordConverters
         );
 
         file_put_contents(
@@ -325,7 +337,7 @@ class Normality
      * The code that handles the output of this function can be found in 'Normality::buildRelation';
      * @return string
      */
-    public function getEntityGenerator( PgClass $pgclass, array $options, $entityFileStore )
+    private function getEntityGenerator( PgClass $pgclass, array $options, $entityFileStore )
     {
 
         // build entity
@@ -365,7 +377,7 @@ class Normality
      * @param string $filename Input filename
      * @return string Cleaned filename
      */
-    public static function fileSystemFriendly( $filename )
+    private static function fileSystemFriendly( $filename )
     {
 
         // some characters just don't go well in file systems. Fix this.

@@ -31,7 +31,7 @@ class DateRange implements ConverterInterface
         $this->upper->setAccessible(true);
     }
 
-    public function fromPg($input)
+    public function __invoke($input)
     {
 
         $obj = $this->refl->newInstanceWithoutConstructor();

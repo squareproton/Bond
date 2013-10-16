@@ -28,7 +28,7 @@ class PgBytea implements ConverterInterface
     //     return $data;
     // }
 
-    public function fromPg($data, $type = null)
+    public function __invoke($data, $type = null)
     {
         if( null === $data ) {
             return null;

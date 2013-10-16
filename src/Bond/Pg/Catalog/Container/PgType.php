@@ -31,6 +31,10 @@ SELECT
     t.typdefault AS default,
     t.typdefaultbin AS "defaultBin",
     CASE
+        WHEN t.typelem::int > 0 THEN t.typelem::int
+        ELSE null::int
+    END as "arrayBaseType",
+    CASE
         WHEN t.typcategory = 'E' THEN ( SELECT array_agg(enumlabel)::text[] FROM pg_enum WHERE enumtypid = t.oid )
         ELSE null::text[]
     END as "enumOptions"

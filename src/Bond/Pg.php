@@ -228,6 +228,8 @@ class Pg implements DatabaseInterface, \Serializable
             $value = (string) $value;
         } elseif( $value instanceof SqlInterface ) {
             $value = $value->parse( $this );
+        } elseif( is_array($value) and false ) {
+            $value = $this->quoteArray($value);
         } else {
             $value = "'" . pg_escape_string( $this->resource->get(), $value ) . "'";
         }
@@ -237,6 +239,18 @@ class Pg implements DatabaseInterface, \Serializable
         }
 
         return $value;
+    }
+
+    /**
+     * Return a string representation of a array
+     * It is arguable whether this belongs here but... on balance
+     * I think it is reasonable to expect a QuotingInterface to handle all primatives
+     * @return string
+     */
+    private function quoteArray( array $array )
+    {
+        $output = array_map( [$this, $quote], $array );
+        return "ARRAY[".implode(',', $output)."]";
     }
 
     /**
