@@ -32,7 +32,11 @@
         "symfony/config": "dev-master",
         "debugchannel/php-client": "0.2"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
+    "config": {
+        "preferred-install": "dist"
+    },    
+    "prefer-stable": true,
     "config": {
         "process-timeout": 5000
     }
