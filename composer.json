@@ -26,10 +26,10 @@
     },
     "require": {
         "php": ">=5.5",
-        "symfony/dependency-injection": "dev-master",
-        "symfony/proxy-manager-bridge": "dev-master",
-        "symfony/yaml": "dev-master",
-        "symfony/config": "dev-master",
+        "symfony/dependency-injection": "v2.4.2",
+        "symfony/proxy-manager-bridge": "v2.4.2",
+        "symfony/yaml": "v2.4.2",
+        "symfony/config": "v2.4.2",
         "debugchannel/php-client": "0.2"
     },
     "minimum-stability": "dev",
