@@ -34,10 +34,6 @@
     },
     "minimum-stability": "dev",
     "config": {
-        "preferred-install": "dist"
-    },    
-    "prefer-stable": true,
-    "config": {
         "process-timeout": 5000
     }
 }
