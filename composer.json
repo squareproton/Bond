@@ -30,7 +30,7 @@
         "symfony/proxy-manager-bridge": "v2.3.5",
         "symfony/yaml": "v2.3.5",
         "symfony/config": "v2.3.5",
-        "debugchannel/php-client": "dev-master"
+        "debugchannel/php-client": "0.2"
     },
     "minimum-stability": "stable",
     "config": {
