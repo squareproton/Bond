@@ -27,9 +27,9 @@
     "require": {
         "php": ">=5.5.0",
         "symfony/dependency-injection": "v2.3.5",
-        "symfony/proxy-manager-bridge": "dev-master",
-        "symfony/yaml": "dev-master",
-        "symfony/config": "dev-master",
+        "symfony/proxy-manager-bridge": "v2.3.5",
+        "symfony/yaml": "v2.3.5",
+        "symfony/config": "v2.3.5",
         "debugchannel/php-client": "dev-master"
     },
     "minimum-stability": "stable",
