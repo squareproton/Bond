@@ -30,7 +30,7 @@
         "symfony/proxy-manager-bridge": "dev-master",
         "symfony/yaml": "dev-master",
         "symfony/config": "dev-master",
-        "squareproton/debugchannel-php-client": "dev-master"
+        "debugchannel/php-client": "dev-master"
     },
     "minimum-stability": "stable",
     "config": {
